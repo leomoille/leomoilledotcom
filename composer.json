@@ -1,0 +1,15 @@
+{
+    "name": "leomoille/leomoilledotcom",
+    "autoload": {
+        "psr-4": {
+            "Leomoille\\Leomoilledotcom\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Léo Moille",
+            "email": "leomoille18@gmail.com"
+        }
+    ],
+    "require": {}
+}
