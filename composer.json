@@ -11,5 +11,7 @@
             "email": "leomoille18@gmail.com"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "squizlabs/php_codesniffer": "*"
+    }
 }
