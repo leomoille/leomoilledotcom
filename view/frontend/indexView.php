@@ -1,41 +1,23 @@
-<!DOCTYPE html>
-<html lang="fr">
+<?php
 
-<head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport" />
-    <meta content="" name="description" />
-    <meta content="" name="author" />
-    <title>Léo Moille - Développeur PHP/Symfony</title>
-    <link href="/public/assets/favicon.ico" rel="icon" type="image/x-icon" />
-    <!-- Font Awesome icons (free version)-->
-    <script crossorigin="anonymous" src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"></script>
-    <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"
-          type="text/css" />
-    <link
-            href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
-            rel="stylesheet" type="text/css" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="../../public/css/styles.css" rel="stylesheet" />
-</head>
-
-<body>
+$title = 'Développeur PHP/Symfony' ?>
+<?php
+ob_start() ?>
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="index.html">Léo Moille</a>
-        <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
-                data-bs-target="#navbarResponsive" data-bs-toggle="collapse" type="button">
+        <a class="navbar-brand" href="/">Léo Moille</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto py-4 py-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link px-lg-3 py-3 py-lg-4" href="./index.html">Accueil</a>
+                    <a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Accueil</a>
                 </li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#">Blog</a></li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#">Connexion</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="?action=blog">Blog</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="?action=connexion">Connexion</a></li>
             </ul>
         </div>
     </div>
@@ -57,58 +39,29 @@
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
-            <!-- Post preview-->
-            <div class="post-preview">
-                <a href="post.html">
-                    <h2 class="post-title">[Titre du post]</h2>
-                    <h3 class="post-subtitle">[Chapô du post]</h3>
-                </a>
-                <p class="post-meta">
-                    Publié par [<a href="#">Nom de l'auteur</a>] le [Date de la publication] - Dernière modification le
-                    [Date de modification]
-                </p>
-            </div>
-            <!-- Divider-->
-            <hr class="my-4" />
-            <!-- Post preview-->
-            <div class="post-preview">
-                <a href="post.html">
-                    <h2 class="post-title">[Titre du post]</h2>
-                    <h3 class="post-subtitle">[Chapô du post]</h3>
-                </a>
-                <p class="post-meta">
-                    Publié par [<a href="#">Nom de l'auteur</a>] le [Date de la publication] - Dernière modification le
-                    [Date de modification]
-                </p>
-            </div>
-            <!-- Divider-->
-            <hr class="my-4" />
-            <!-- Post preview-->
-            <div class="post-preview">
-                <a href="post.html">
-                    <h2 class="post-title">[Titre du post]</h2>
-                    <h3 class="post-subtitle">[Chapô du post]</h3>
-                </a>
-                <p class="post-meta">
-                    Publié par [<a href="#">Nom de l'auteur</a>] le [Date de la publication] - Dernière modification le
-                    [Date de modification]
-                </p>
-            </div>
-            <!-- Divider-->
-            <hr class="my-4" />
-            <!-- Post preview-->
-            <div class="post-preview">
-                <a href="post.html">
-                    <h2 class="post-title">[Titre du post]</h2>
-                    <h3 class="post-subtitle">[Chapô du post]</h3>
-                </a>
-                <p class="post-meta">
-                    Publié par [<a href="#">Nom de l'auteur</a>] le [Date de la publication] - Dernière modification le
-                    [Date de modification]
-                </p>
-            </div>
-            <!-- Divider-->
-            <hr class="my-4" />
+            <?php
+            while ($article = $articles->fetch()) {
+                ?>
+                <div class="post-preview">
+                    <a href="?action=post&id=<?=$article['id'] ?>">
+                        <h2 class="post-title"><?= htmlspecialchars($article['title']) ?></h2>
+                        <h3 class="post-subtitle"><?= htmlspecialchars($article["pre_content"]); ?></h3>
+                    </a>
+                    
+                    <p class="post-meta">
+                        Publié par <a href="#"><?= htmlspecialchars($article['author']); ?></a>
+                        le <?= htmlspecialchars($article['publication_date']); ?>
+                        <?= htmlspecialchars($article['modification_date']) !== null ?
+                            null :
+                            ' - Dernière modification le ' . htmlspecialchars($article['modification_date']); ?>
+                    </p>
+                </div>
+                <!-- Divider-->
+                <hr class="my-4" />
+                <?php
+            }
+            $articles->closeCursor();
+            ?>
             <!-- Pager-->
             <div class="d-flex justify-content-end mb-4">
                 <a class="btn btn-primary text-uppercase" href="#">Voir toutes les publications →</a>
@@ -124,18 +77,16 @@
             <p>Entrez facilement en contact avec moi dès maintenant.</p>
             <form id="contactForm">
                 <div class="form-floating">
-                    <input class="form-control" id="name" placeholder="Votre nom" required type="text" />
-                    <label
-                            for="name">Nom</label>
+                    <input class="form-control" id="name" type="text" placeholder="Votre nom" required />
+                    <label for="name">Nom</label>
                 </div>
                 <div class="form-floating">
-                    <input class="form-control" id="email" placeholder="Votre email" required type="email" />
-                    <label
-                            for="email">Email address</label>
+                    <input class="form-control" id="email" type="email" placeholder="Votre email" required />
+                    <label for="email">Email address</label>
                 </div>
                 <div class="form-floating">
-                        <textarea class="form-control" id="message" placeholder="Votre message" required
-                                  style="height: 12rem"></textarea>
+                    <textarea class="form-control" id="message" placeholder="Votre message" style="height: 12rem"
+                              required></textarea>
                     <label for="message">Message</label>
                 </div>
                 <br />
@@ -248,10 +199,8 @@
         </div>
     </div>
 </footer>
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="../../public/js/scripts.js"></script>
-</body>
+<?php
+$content = ob_get_clean(); ?>
 
-</html>
+<?php
+require('template.php') ?>
