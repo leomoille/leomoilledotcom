@@ -16,8 +16,12 @@ ob_start() ?>
                 <li class="nav-item active">
                     <a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Accueil</a>
                 </li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="?action=blog">Blog</a></li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="?action=connexion">Connexion</a></li>
+                <li class="nav-item">
+                    <a class="nav-link px-lg-3 py-3 py-lg-4" href="?action=blog">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-lg-3 py-3 py-lg-4" href="?action=connexion">Connexion</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -43,14 +47,15 @@ ob_start() ?>
             while ($article = $articles->fetch()) {
                 ?>
                 <div class="post-preview">
-                    <a href="?action=post&id=<?=$article['id'] ?>">
+                    <a href="?action=post&id=<?= $article['id'] ?>">
                         <h2 class="post-title"><?= htmlspecialchars($article['title']) ?></h2>
                         <h3 class="post-subtitle"><?= htmlspecialchars($article["pre_content"]); ?></h3>
                     </a>
                     
                     <p class="post-meta">
-                        Publié par <a href="#"><?= htmlspecialchars($article['author']); ?></a>
-                        le <?= htmlspecialchars($article['publication_date']); ?>
+                        Publié par <a href="#"><?= htmlspecialchars($article['author']); ?></a> le <?= htmlspecialchars(
+                            $article['publication_date']
+                        ); ?>
                         <?= htmlspecialchars($article['modification_date']) !== null ?
                             null :
                             ' - Dernière modification le ' . htmlspecialchars($article['modification_date']); ?>
@@ -192,8 +197,8 @@ ob_start() ?>
                 </ul>
                 <div class="small text-center text-muted fst-italic">Copyright &copy; Léo Moille [Année en cours]
                 </div>
-                <div class="small text-center text-muted"><a href="#">Mentions légales</a> - <a href="#">Politique de
-                                                                                                         confidentialité</a>
+                <div class="small text-center text-muted">
+                    <a href="#">Mentions légales</a> - <a href="#">Politique de confidentialité</a>
                 </div>
             </div>
         </div>

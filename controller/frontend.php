@@ -15,10 +15,12 @@ function post()
     require('view/frontend/postView.php');
 }
 
-function blog() {
+function blog()
+{
     require('view/frontend/blogView.php');
 }
 
-function connexion() {
+function connexion()
+{
     require('view/frontend/loginView.php');
 }

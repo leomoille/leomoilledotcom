@@ -1,12 +1,16 @@
 {
-    "name": "leomoille/leomoilledotcom",
-    "authors": [
-        {
-            "name": "Léo Moille",
-            "email": "leomoille18@gmail.com"
-        }
-    ],
-    "require": {
-        "twig/twig": "3.0"
+  "name": "leomoille/leomoilledotcom",
+  "authors": [
+    {
+      "name": "Léo Moille",
+      "email": "leomoille18@gmail.com"
     }
+  ],
+  "require": {
+    "twig/twig": "3.0",
+    "ext-pdo": "*"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "3.*"
+  }
 }

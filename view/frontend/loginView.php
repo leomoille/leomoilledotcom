@@ -16,8 +16,12 @@ ob_start() ?>
                 <li class="nav-item active">
                     <a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Accueil</a>
                 </li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="?action=blog">Blog</a></li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="?action=connexion">Connexion</a></li>
+                <li class="nav-item">
+                    <a class="nav-link px-lg-3 py-3 py-lg-4" href="?action=blog">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-lg-3 py-3 py-lg-4" href="?action=connexion">Connexion</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -66,8 +70,8 @@ ob_start() ?>
                 </ul>
                 <div class="small text-center text-muted fst-italic">Copyright &copy; Léo Moille [Année en cours]
                 </div>
-                <div class="small text-center text-muted"><a href="#">Mentions légales</a> - <a href="#">Politique de
-                                                                                                         confidentialité</a>
+                <div class="small text-center text-muted">
+                    <a href="#">Mentions légales</a> - <a href="#">Politique de confidentialité</a>
                 </div>
             </div>
         </div>
