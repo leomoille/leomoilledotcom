@@ -1,15 +1,16 @@
 {
-    "name": "leomoille/leomoilledotcom",
-    "autoload": {
-        "psr-4": {
-            "Leomoille\\Leomoilledotcom\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Léo Moille",
-            "email": "leomoille18@gmail.com"
-        }
-    ],
-    "require": {}
+  "name": "leomoille/leomoilledotcom",
+  "authors": [
+    {
+      "name": "Léo Moille",
+      "email": "leomoille18@gmail.com"
+    }
+  ],
+  "require": {
+    "twig/twig": "3.0",
+    "ext-pdo": "*"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "3.*"
+  }
 }
