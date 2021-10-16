@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor Administrateur as a
+entity "Site Web" as www
+database "Base de données" as db
+
+ref over a, www, db : Auth
+
+a -> www: Accès au back office
+    activate a
+    activate www
+www -> db: Récupération des données
+    activate db
+www <- db: Retourne les données du back office
+    deactivate db
+a <- www: Affichage du back office
+    deactivate a
+    deactivate www
+a -> www: Envoie un nouvel article
+    activate a
+    activate www
+www -> db: Sauvegarde du nouvel article
+    activate db
+www <- db: OK: Article enregistré
+    deactivate db
+a <- www: Article publié !
+    deactivate www
+    deactivate a
+
+
+@enduml

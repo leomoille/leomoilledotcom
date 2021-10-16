@@ -2,25 +2,37 @@
 
 require('model/frontend.php');
 
-function listPosts()
+
+function listPosts($twig)
+{
+    $articles = getLastPosts();
+    echo $twig->render('frontend/indexView.twig', ['articles' => $articles]);
+}
+
+function post($twig)
+{
+    $article  = getPost($_GET['id']);
+    $comments = getComments($_GET['id']);
+    echo $twig->render('frontend/postView.twig', ['comments' => $comments, 'article' => $article]);
+}
+
+function blog($twig)
 {
     $articles = getPosts();
-    require('view/frontend/indexView.php');
+    echo $twig->render('frontend/blogView.twig', ['articles' => $articles]);
 }
 
-function post()
+function connexion($twig)
 {
-    $article     = getPost($_GET['id']);
-    $comments = getComments($_GET['id']);
-    require('view/frontend/postView.php');
+    echo $twig->render('frontend/loginView.twig');
 }
 
-function blog()
+function manageAccount($twig)
 {
-    require('view/frontend/blogView.php');
+    echo $twig->render('backoffice/manageAccountView.twig');
 }
 
-function connexion()
+function manageSite($twig)
 {
-    require('view/frontend/loginView.php');
+    echo $twig->render('backoffice/manageSiteView.twig');
 }

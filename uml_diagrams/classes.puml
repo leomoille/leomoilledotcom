@@ -1,0 +1,31 @@
+@startuml Classes
+'https://plantuml.com/class-diagram
+
+title Diagramme de Classe
+
+'' CLASSES ''
+class Post {
++ author: string
++ title: string
++ content: string
++ publication_date: Date
++ modification_date: Date
+}
+
+class Comment {
++ content: string
++ publication_date: Date
++ isValid: bool
+}
+
+class User {
++ name: string
++ email: string
++ isAdmin: bool
+}
+
+'' ASSOCIATIONS ''
+Post "1" --- "0..*" Comment
+User "1" --- "0..*" Comment
+
+@enduml
