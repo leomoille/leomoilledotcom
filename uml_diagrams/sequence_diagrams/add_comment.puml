@@ -1,0 +1,72 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title Ajout de commentaire
+
+actor Administrateur as a
+actor Utilisateur as u
+entity "Site Web" as www
+database "Base de données" as db
+
+ref over u, www, db : Auth
+
+u -> www: Afficher la page des articles
+    activate u
+    activate www
+www -> db: Récupère tous les articles
+    deactivate www
+    activate db
+www <- db: Renvoie la liste des articles
+    deactivate db
+    activate www
+u <- www: Renvoie la page des articles
+    deactivate u
+    deactivate www
+u -> www: Affiche un article
+    activate u
+    activate www
+www -> db: Récupère les données de l'article
+    deactivate www
+    activate db
+www <- db: Renvoi les données de l'article
+    deactivate db
+    activate www
+u <- www: Renvoi l'article
+    deactivate www
+    deactivate u
+u -> www: Ajout d'un commentaire
+    activate u
+    activate www
+www -> db: Enregistre le commentaire
+    deactivate www
+    activate db
+www <- db: OK : Commentaire enregistré
+    deactivate db
+    activate www
+u <- www: Commentaire enregistré
+    deactivate u
+a <- www: Nouveau commentaire à approuver
+    deactivate www
+    activate a
+'' VALIDATION DU COMMENTAIRE ''
+alt commentaire approuvé
+    a -> www: Commentaire approuvé
+        activate www
+    www -> db: Changement du commentaire en "approuvé"
+        activate db
+    www <- db: OK
+        deactivate db
+    u <- www: Commentaire affiché sur l'article
+        deactivate www
+else commentaire désapprouvé
+    a -> www: Commentaire désapprouvé
+        deactivate a
+        activate www
+    www -> db: Suppression du commentaire
+        activate db
+    www <- db: OK
+        deactivate www
+        deactivate db
+end
+
+@enduml

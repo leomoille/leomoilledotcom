@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title Connexion (Auth)
+
+actor Utilisateur as u
+entity "Site Web" as www
+database "Base de données" as db
+
+u -> www: Page de connexion
+    activate u
+    activate www
+    note left : La page de connexion sert\nAussi bien au utilisateurs\nqu'aux administrateurs
+u <- www: Retourne la page de connexion
+    deactivate www
+u -> www: Requête d'authentification
+    activate www
+www -> db: Vérifie les données
+    deactivate www
+    activate db
+'' CONNEXION ''
+alt succès
+    www <- db: OK
+        activate www
+        destroy db
+    u <- www: Vous êtes maintenant connecté
+        deactivate www
+else erreur
+    www <- db: Erreur
+        destroy db
+        activate www
+    u <- www: Erreur
+        deactivate www
+        deactivate u
+end
+
+
+@enduml

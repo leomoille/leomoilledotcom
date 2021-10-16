@@ -1,0 +1,63 @@
+@startuml Cas d'utilisation
+'https://plantuml.com/use-case-diagram
+
+title Diagramme de cas d'utilisation
+
+'' ACTORS ''
+actor Admin as a
+actor User as u
+actor Guest as g
+a -|> u
+u -|> g
+
+'' PACKAGES ''
+package leomoilledotcom {
+    '' MANAGE ''
+    usecase postComment as "Post comment"
+    usecase deleteOwnComment as "Delete own comment"
+    usecase deleteComment as "Delete any comment"
+    usecase editComment as "Edit any comment"
+    usecase approveComment as "Approve a comment"
+    usecase deleteUser as "Delete a user"
+    usecase editOwnComment as "Edit own comment"
+    usecase deletePost as "Delete a post"
+    usecase editPost as "Edit a post"
+    usecase addPost as "Add new post"
+    usecase readPost as "Read a post"
+    usecase login as "Log In"
+    usecase signup as "Sign Up"
+    usecase logout as "Log Out"
+    usecase sendContact as "Send message \nwith contact form"
+    ' Ajouter toutes les actions manquantes'
+}
+
+'' RELATIONS ''
+
+
+'' DISPLAYS ''
+'' Guest
+g --[#blue] login
+g --[#blue] signup
+g --[#blue] readPost
+g --[#blue] sendContact
+
+
+'' User
+u --[#green] postComment
+u --[#green] editOwnComment
+u --[#green] deleteOwnComment
+u --[#green] logout
+
+'' Admin
+a -- addPost
+a -- editPost
+a -- deletePost
+a -- editComment
+a -- deleteComment
+a -- approveComment
+a -- deleteUser
+
+'' NOTES ''
+
+
+@enduml
