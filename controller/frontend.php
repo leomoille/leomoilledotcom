@@ -29,10 +29,10 @@ function connexion($twig)
 
 function manageAccount($twig)
 {
-    echo $twig->render('frontend/manageAccountView.twig');
+    echo $twig->render('backoffice/manageAccountView.twig');
 }
 
 function manageSite($twig)
 {
-    echo $twig->render('frontend/manageSiteView.twig');
+    echo $twig->render('backoffice/manageSiteView.twig');
 }
