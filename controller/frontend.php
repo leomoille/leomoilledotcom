@@ -2,6 +2,10 @@
 
 require('model/frontend.php');
 
+function auth($mail, $password)
+{
+    checkAuth($mail, $password);
+}
 
 function listPosts($twig)
 {

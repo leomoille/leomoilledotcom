@@ -13,6 +13,20 @@ function dbConnect()
     }
 }
 
+function checkAuth($mail, $password)
+{
+    // TODO: Vérifier qu\'une session n\'est pas en cours
+    
+    $db  = dbConnect();
+    $req = $db->prepare(
+        "SELECT * FROM users WHERE mail = ? AND password = MD5(?)"
+    );
+    
+    $req->execute([$mail, $password]);
+    
+    return $req->fetch();
+}
+
 function getPosts()
 {
     $db = dbConnect();

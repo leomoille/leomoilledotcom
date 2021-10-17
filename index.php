@@ -7,6 +7,16 @@ use Twig\Loader\FilesystemLoader;
 require('controller/frontend.php');
 require('vendor/autoload.php');
 
+
+// AUTH
+if ( ! empty($_POST)) {
+    if ( ! empty($_POST['mail']) && ! empty($_POST['password'])) {
+        $data = auth($_POST['mail'], $_POST['password']);
+        var_dump($data);
+    }
+}
+
+
 $loader = new FilesystemLoader('view');
 $twig   = new Environment($loader, [
 //    'cache' => 'tmp',

@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block content %}
-    <!-- Page Header-->
+    {# Page Header #}
     <header class="masthead" style="background-image: url('../../public/images/home-bg.jpg')">
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -40,15 +40,15 @@
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                              aria-labelledby="pills-home-tab">
                             <div class="col-md-10 col-lg-8 col-xl-7 m-auto pt-5">
-                                <form>
+                                <form method="post" action="index.php">
                                     <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1"
-                                               aria-describedby="emailHelp">
+                                        <label for="loginEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="loginEmail"
+                                               aria-describedby="emailHelp" name="mail">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1">
+                                        <label for="loginPassword" class="form-label">Mot de passe</label>
+                                        <input name="password" type="password" class="form-control" id="loginPassword">
                                     </div>
                                     <button type="submit" class="btn btn-primary">Connexion</button>
                                 </form>
@@ -79,10 +79,6 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-
-            </div>
         </div>
-
     </div>
 {% endblock %}
