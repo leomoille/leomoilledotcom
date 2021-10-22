@@ -5,7 +5,8 @@
 
 {% block content %}
     {# Page Header #}
-    <header class="masthead" style="background-image: url('../../public/images/home-bg.jpg')">
+    <header class="masthead"
+            style="background-image: url('../../public/images/home-bg.jpg')">
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
@@ -22,12 +23,14 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 {% for post in posts %}
-                    <div class="post-preview"><a href="?action=post&id={{ post.id }}">
+                    <div class="post-preview"><a
+                                href="?action=post&id={{ post.id }}">
                             <h2 class="post-title">{{ post.title }}</h2>
                             <h3 class="post-subtitle">{{ post.pre_content }}</h3>
                         </a>
                         <div class="post-meta">
-                            Publié par <a href="#">{{ post.author }}</a> le {{ post.publication_date }}
+                            Publié par <a href="#">{{ post.author }}</a>
+                            le {{ post.publication_date }}
                             {% if post.modification_date %}
                                 <div>
                                     <span class="small">
@@ -42,7 +45,8 @@
                 {% endfor %}
                 {# Pager #}
                 <div class="d-flex justify-content-end mb-4">
-                    <a class="btn btn-primary text-uppercase" href="?action=blog">Voir toutes les publications →</a>
+                    <a class="btn btn-primary text-uppercase"
+                       href="?action=blog">Voir toutes les publications →</a>
                 </div>
             </div>
         </div>
@@ -55,22 +59,26 @@
                 <p>Entrez facilement en contact avec moi dès maintenant.</p>
                 <form id="contactForm">
                     <div class="form-floating">
-                        <input class="form-control" id="name" type="text" placeholder="Votre nom" required />
+                        <input class="form-control" id="name" type="text"
+                               placeholder="Votre nom" required />
                         <label for="name">Nom</label>
                     </div>
                     <div class="form-floating">
-                        <input class="form-control" id="email" type="email" placeholder="Votre email" required />
+                        <input class="form-control" id="email" type="email"
+                               placeholder="Votre email" required />
                         <label for="email">Email address</label>
                     </div>
                     <div class="form-floating">
-                    <textarea class="form-control" id="message" placeholder="Votre message" style="height: 12rem"
+                    <textarea class="form-control" id="message"
+                              placeholder="Votre message" style="height: 12rem"
                               required></textarea>
                         <label for="message">Message</label>
                     </div>
                     <br />
                     <p>[CAPTCHA]</p>
                     {# Submit Button #}
-                    <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Envoyer
+                    <button class="btn btn-primary text-uppercase"
+                            id="submitButton" type="submit">Envoyer
                     </button>
                 </form>
             </div>
@@ -86,8 +94,11 @@
                         <div class="card border-0 p-2">
                             <div class="card-body">
                                 <h3 class="h5 card-title text-center">PHP</h3>
-                                <p class="card-text">This is a longer card with supporting text below as a natural
-                                                     lead-in to additional content. This content is a little bit
+                                <p class="card-text">This is a longer card with
+                                                     supporting text below as a
+                                                     natural lead-in to
+                                                     additional content. This
+                                                     content is a little bit
                                                      longer.</p>
                             </div>
                         </div>
@@ -96,8 +107,11 @@
                         <div class="card border-0 p-2">
                             <div class="card-body">
                                 <h3 class="h5 card-title text-center">Twig</h3>
-                                <p class="card-text">This is a longer card with supporting text below as a natural
-                                                     lead-in to additional content. This content is a little bit
+                                <p class="card-text">This is a longer card with
+                                                     supporting text below as a
+                                                     natural lead-in to
+                                                     additional content. This
+                                                     content is a little bit
                                                      longer.</p>
                             </div>
                         </div>
@@ -106,8 +120,11 @@
                         <div class="card border-0 p-2">
                             <div class="card-body">
                                 <h3 class="h5 card-title text-center">MySQL</h3>
-                                <p class="card-text">This is a longer card with supporting text below as a natural
-                                                     lead-in to additional content. This content is a little bit
+                                <p class="card-text">This is a longer card with
+                                                     supporting text below as a
+                                                     natural lead-in to
+                                                     additional content. This
+                                                     content is a little bit
                                                      longer.</p>
                             </div>
                         </div>
@@ -115,9 +132,13 @@
                     <div class="col col-md-6">
                         <div class="card border-0 p-2">
                             <div class="card-body">
-                                <h3 class="h5 card-title text-center">HTML 5</h3>
-                                <p class="card-text">This is a longer card with supporting text below as a natural
-                                                     lead-in to additional content. This content is a little bit
+                                <h3 class="h5 card-title text-center">HTML
+                                                                      5</h3>
+                                <p class="card-text">This is a longer card with
+                                                     supporting text below as a
+                                                     natural lead-in to
+                                                     additional content. This
+                                                     content is a little bit
                                                      longer.</p>
                             </div>
                         </div>
@@ -126,8 +147,11 @@
                         <div class="card border-0 p-2">
                             <div class="card-body">
                                 <h3 class="h5 card-title text-center">CSS 3</h3>
-                                <p class="card-text">This is a longer card with supporting text below as a natural
-                                                     lead-in to additional content. This content is a little bit
+                                <p class="card-text">This is a longer card with
+                                                     supporting text below as a
+                                                     natural lead-in to
+                                                     additional content. This
+                                                     content is a little bit
                                                      longer.</p>
                             </div>
                         </div>
@@ -135,9 +159,13 @@
                     <div class="col col-md-6">
                         <div class="card border-0 p-2">
                             <div class="card-body">
-                                <h3 class="h5 card-title text-center">JavaScript</h3>
-                                <p class="card-text">This is a longer card with supporting text below as a natural
-                                                     lead-in to additional content. This content is a little bit
+                                <h3 class="h5 card-title text-center">
+                                    JavaScript</h3>
+                                <p class="card-text">This is a longer card with
+                                                     supporting text below as a
+                                                     natural lead-in to
+                                                     additional content. This
+                                                     content is a little bit
                                                      longer.</p>
                             </div>
                         </div>

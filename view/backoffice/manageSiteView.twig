@@ -5,7 +5,8 @@
 
 {% block content %}
     {# Page Header #}
-    <header class="masthead" style="background-image: url('../../public/images/home-bg.jpg')">
+    <header class="masthead"
+            style="background-image: url('../../public/images/home-bg.jpg')">
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
@@ -20,63 +21,82 @@
     <div class="mb-4">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
-                    <ul class="nav nav-pills mb-3 nav-fill" id="pills-tab" role="tablist">
+                <div class="col-md-12 col-lg-10 col-xl-9">
+                    <ul class="nav nav-pills mb-3 nav-fill" id="pills-tab"
+                        role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="pills-post-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-post" type="button" role="tab" aria-controls="pills-post"
+                            <button class="nav-link active" id="pills-post-tab"
+                                    data-bs-toggle="pill"
+                                    data-bs-target="#pills-post" type="button"
+                                    role="tab" aria-controls="pills-post"
                                     aria-selected="true">Ajouter un article
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-comment-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-comment" type="button" role="tab"
+                            <button class="nav-link" id="pills-comment-tab"
+                                    data-bs-toggle="pill"
+                                    data-bs-target="#pills-comment"
+                                    type="button" role="tab"
                                     aria-controls="pills-comment"
                                     aria-selected="true">Commentaire à approuver
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-account-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-account" type="button" role="tab"
+                            <button class="nav-link" id="pills-account-tab"
+                                    data-bs-toggle="pill"
+                                    data-bs-target="#pills-account"
+                                    type="button" role="tab"
                                     aria-controls="pills-profile"
                                     aria-selected="false">Supprimer un compte
                             </button>
                         </li>
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="pills-post" role="tabpanel"
+                        <div class="tab-pane fade show active" id="pills-post"
+                             role="tabpanel"
                              aria-labelledby="pills-post-tab">
                             <div class="col-md-10 col-lg-8 col-xl-7 m-auto pt-5">
                                 <h3>Ajouter un article</h3>
                                 <form>
                                     <div class="form-group">
-                                        <label for="exampleFormControlInput1">Titre de l'article</label>
-                                        <input type="text" class="form-control" id="exampleFormControlInput1">
+                                        <label for="exampleFormControlInput1">Titre
+                                                                              de
+                                                                              l'article</label>
+                                        <input type="text" class="form-control"
+                                               id="exampleFormControlInput1">
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleFormControlTextarea1">Contenu de l'article</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1"
+                                        <label for="exampleFormControlTextarea1">Contenu
+                                                                                 de
+                                                                                 l'article</label>
+                                        <textarea class="form-control"
+                                                  id="exampleFormControlTextarea1"
                                                   rows="10"></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Publier</button>
+                                    <button type="submit"
+                                            class="btn btn-primary">Publier
+                                    </button>
                                 </form>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="pills-comment" role="tabpanel"
+                        <div class="tab-pane fade" id="pills-comment"
+                             role="tabpanel"
                              aria-labelledby="pills-comment-tab">
                             <div class="col-md-10 col-lg-8 col-xl-7 m-auto pt-5">
                                 <h3>Gestion des commentaires</h3>
                                 <p>Il y a [0] commentaires à approuver.</p>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="pills-account" role="tabpanel"
+                        <div class="tab-pane fade" id="pills-account"
+                             role="tabpanel"
                              aria-labelledby="pills-account-tab">
                             <div class="col-md-10 col-lg-8 col-xl-7 m-auto pt-5">
                                 <form>
                                     <div class="mb-3">
                                         <div class="form-check">
                                             <h3>Gestion des comptes</h3>
-                                            <p>Il n'y a aucun compte inscrit.</p>
+                                            <p>Il n'y a aucun compte
+                                               inscrit.</p>
                                         </div>
                                     </div>
                                 </form>

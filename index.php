@@ -7,6 +7,8 @@ use Twig\Loader\FilesystemLoader;
 require('controller/frontend.php');
 require('vendor/autoload.php');
 
+session_start();
+
 
 $loader = new FilesystemLoader('view');
 $twig   = new Environment($loader, [
@@ -17,9 +19,9 @@ $twig->addExtension(new DebugExtension());
 
 if (isset($_GET['action'])) {
     // Home page
-    if ($_GET['action'] == 'listPosts') {
+    if ($_GET['action'] == 'home') {
         try {
-            listPosts($twig);
+            home($twig);
         } catch (Exception $e) {
             echo $e;
         }
@@ -48,12 +50,20 @@ if (isset($_GET['action'])) {
         } catch (Exception $e) {
             echo $e;
         }
+        // User login
+    } elseif ($_GET['action'] == 'login') {
+        $data = $_POST['login'];
+        try {
+            loginAccount($data['email'], $data['password']);
+        } catch (Exception $e) {
+            echo $e;
+        }
+        // User logout
+    } elseif ($_GET['action'] == 'logout') {
+        logoutAccount();
         // User sign up
     } elseif ($_GET['action'] == 'signup') {
         $data = $_POST['signup'];
-//        echo '<pre>';
-//        print_r($data);
-//        echo '</pre>';
         try {
             signupAccount(
                 $data['name'],
@@ -82,14 +92,14 @@ if (isset($_GET['action'])) {
         // No 404 for wrong action, just return Home page
     } else {
         try {
-            listPosts($twig);
+            home($twig);
         } catch (Exception $e) {
             echo $e;
         }
     }
 } else {
     try {
-        listPosts($twig);
+        home($twig);
     } catch (Exception $e) {
         echo $e;
     }

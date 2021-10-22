@@ -20,13 +20,13 @@ use Twig\Error\SyntaxError;
  *
  * @throws Exception
  */
-function listPosts(Environment $twig)
+function home(Environment $twig)
 {
     $postManager = new PostManager();
     $posts       = $postManager->getLastsPosts();
     
     try {
-        echo $twig->render('frontoffice/indexView.twig', ['posts' => $posts]);
+        echo $twig->render('frontoffice/indexView.twig', ['posts' => $posts, 'session' => $_SESSION]);
     } catch (LoaderError | RuntimeError | SyntaxError $e) {
         throw new Exception($e);
     }
@@ -46,7 +46,7 @@ function blog(Environment $twig)
     $posts       = $postManager->getPosts();
     
     try {
-        echo $twig->render('frontoffice/blogView.twig', ['posts' => $posts]);
+        echo $twig->render('frontoffice/blogView.twig', ['posts' => $posts, 'session' => $_SESSION]);
     } catch (LoaderError | RuntimeError | SyntaxError $e) {
         throw new Exception($e);
     }
@@ -68,7 +68,10 @@ function post(Environment $twig)
     $comments = $commentManager->getComments($_GET['id']);
     
     try {
-        echo $twig->render('frontoffice/postView.twig', ['comments' => $comments, 'post' => $post]);
+        echo $twig->render(
+            'frontoffice/postView.twig',
+            ['comments' => $comments, 'post' => $post, 'session' => $_SESSION]
+        );
     } catch (LoaderError | RuntimeError | SyntaxError $e) {
         throw new Exception($e);
     }
@@ -107,7 +110,7 @@ function addComment(int $postId, string $author, string $comment)
 function connexion(Environment $twig)
 {
     try {
-        echo $twig->render('frontoffice/loginView.twig');
+        echo $twig->render('frontoffice/loginView.twig', ['session' => $_SESSION]);
     } catch (LoaderError | RuntimeError | SyntaxError $e) {
         throw new Exception($e);
     }
@@ -131,6 +134,23 @@ function signupAccount(string $name, string $email, string $emailCheck, string $
 }
 
 /**
+ * @throws Exception
+ */
+function loginAccount(string $email, string $password)
+{
+    $accountManager = new AccountManager();
+    $accountManager->login($email, $password);
+    header('Location: index.php');
+}
+
+function logoutAccount()
+{
+    $accountManager = new AccountManager();
+    $accountManager->logout();
+    header('Location: index.php');
+}
+
+/**
  * Affichage de la page de gestion du compte
  *
  * @param $twig Environment Display view
@@ -140,7 +160,7 @@ function signupAccount(string $name, string $email, string $emailCheck, string $
 function manageAccount(Environment $twig)
 {
     try {
-        echo $twig->render('backoffice/manageAccountView.twig');
+        echo $twig->render('backoffice/manageAccountView.twig', ['session' => $_SESSION]);
     } catch (LoaderError | RuntimeError | SyntaxError $e) {
         throw new Exception($e);
     }
@@ -156,7 +176,7 @@ function manageAccount(Environment $twig)
 function manageSite(Environment $twig)
 {
     try {
-        echo $twig->render('backoffice/manageSiteView.twig');
+        echo $twig->render('backoffice/manageSiteView.twig', ['session' => $_SESSION]);
     } catch (LoaderError | RuntimeError | SyntaxError $e) {
         throw new Exception($e);
     }
