@@ -1,6 +1,8 @@
 @startuml Cas d'utilisation
 'https://plantuml.com/use-case-diagram
 
+left to right direction
+
 title Diagramme de cas d'utilisation
 
 '' ACTORS ''
@@ -27,6 +29,7 @@ package leomoilledotcom {
     usecase login as "Se connecter"
     usecase signup as "S'inscrire"
     usecase logout as "Se déconnecter"
+    usecase listPosts as "Lister les articles"
     usecase sendContact as "Envoyer un message via\n un formulaire de contact"
     ' Ajouter toutes les actions manquantes'
 }
@@ -37,6 +40,7 @@ package leomoilledotcom {
 '' DISPLAYS ''
 '' Guest
 g --[#blue] login
+g --[#blue] listPosts
 g --[#blue] signup
 g --[#blue] readPost
 g --[#blue] sendContact

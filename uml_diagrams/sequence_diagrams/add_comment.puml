@@ -14,12 +14,10 @@ u -> www: Afficher la page des articles
     activate u
     activate www
 www -> db: Récupère tous les articles
-    deactivate www
     activate db
-www <- db: Renvoie la liste des articles
+www <-- db: Renvoie la liste des articles
     deactivate db
-    activate www
-u <- www: Renvoie la page des articles
+u <-- www: Renvoie la page des articles
     deactivate u
     deactivate www
 u -> www: Affiche un article
@@ -28,10 +26,10 @@ u -> www: Affiche un article
 www -> db: Récupère les données de l'article
     deactivate www
     activate db
-www <- db: Renvoi les données de l'article
+www <-- db: Renvoi les données de l'article
     deactivate db
     activate www
-u <- www: Renvoi l'article
+u <-- www: Renvoi l'article
     deactivate www
     deactivate u
 u -> www: Ajout d'un commentaire
@@ -40,12 +38,12 @@ u -> www: Ajout d'un commentaire
 www -> db: Enregistre le commentaire
     deactivate www
     activate db
-www <- db: OK : Commentaire enregistré
+www <-- db: OK : Commentaire enregistré
     deactivate db
     activate www
-u <- www: Commentaire enregistré
+u <-- www: Commentaire enregistré
     deactivate u
-a <- www: Nouveau commentaire à approuver
+a <-- www: Nouveau commentaire à approuver
     deactivate www
     activate a
 '' VALIDATION DU COMMENTAIRE ''
@@ -54,9 +52,9 @@ alt commentaire approuvé
         activate www
     www -> db: Changement du commentaire en "approuvé"
         activate db
-    www <- db: OK
+    www <-- db: OK
         deactivate db
-    u <- www: Commentaire affiché sur l'article
+    u <-- www: Commentaire affiché sur l'article
         deactivate www
 else commentaire désapprouvé
     a -> www: Commentaire désapprouvé
@@ -64,7 +62,7 @@ else commentaire désapprouvé
         activate www
     www -> db: Suppression du commentaire
         activate db
-    www <- db: OK
+    www <-- db: OK
         deactivate www
         deactivate db
 end
