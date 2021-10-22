@@ -1,33 +1,36 @@
 @startuml Cas d'utilisation
 'https://plantuml.com/use-case-diagram
 
+left to right direction
+
 title Diagramme de cas d'utilisation
 
 '' ACTORS ''
-actor Admin as a
-actor User as u
-actor Guest as g
+actor Administrateur as a
+actor Utilisateur as u
+actor Visiteur as g
 a -|> u
 u -|> g
 
 '' PACKAGES ''
 package leomoilledotcom {
     '' MANAGE ''
-    usecase postComment as "Post comment"
-    usecase deleteOwnComment as "Delete own comment"
-    usecase deleteComment as "Delete any comment"
-    usecase editComment as "Edit any comment"
-    usecase approveComment as "Approve a comment"
-    usecase deleteUser as "Delete a user"
-    usecase editOwnComment as "Edit own comment"
-    usecase deletePost as "Delete a post"
-    usecase editPost as "Edit a post"
-    usecase addPost as "Add new post"
-    usecase readPost as "Read a post"
-    usecase login as "Log In"
-    usecase signup as "Sign Up"
-    usecase logout as "Log Out"
-    usecase sendContact as "Send message \nwith contact form"
+    usecase postComment as "Publier\n un commentaire"
+    usecase deleteOwnComment as "Supprimer\n son commentaire"
+    usecase deleteComment as "Supprimer\n un commentaire"
+    usecase editComment as "Éditer\n un commentaire"
+    usecase approveComment as "Approuver\n un commentaire"
+    usecase deleteUser as "Supprimer\n un utilisateur"
+    usecase editOwnComment as "Éditer\n son commentaire"
+    usecase deletePost as "Supprimer\n un article"
+    usecase editPost as "Éditer\n un article"
+    usecase addPost as "Ajouter\n un article"
+    usecase readPost as "Lire\n un article"
+    usecase login as "Se connecter"
+    usecase signup as "S'inscrire"
+    usecase logout as "Se déconnecter"
+    usecase listPosts as "Lister les articles"
+    usecase sendContact as "Envoyer un message via\n un formulaire de contact"
     ' Ajouter toutes les actions manquantes'
 }
 
@@ -37,6 +40,7 @@ package leomoilledotcom {
 '' DISPLAYS ''
 '' Guest
 g --[#blue] login
+g --[#blue] listPosts
 g --[#blue] signup
 g --[#blue] readPost
 g --[#blue] sendContact

@@ -1,23 +1,25 @@
-{% extends 'frontend/template.twig' %}
+{% extends 'template.twig' %}
 {% block title %}
     {{ article.title }}
 {% endblock %}
 
 {% block content %}
-    <!-- Page Header-->
-    <header class="masthead" style="background-image: url('../../public/images/post-bg.jpg')">
+    {# Page Header #}
+    <header class="masthead"
+            style="background-image: url('../../public/images/post-bg.jpg')">
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="post-heading">
-                        <h1>{{ article.title }}</h1>
-                        <h2 class="subheading">{{ article.pre_content }}</h2>
+                        <h1>{{ post.title }}</h1>
+                        <h2 class="subheading">{{ post.pre_content }}</h2>
                         <span class="meta">
-                            Publié par <a href="#">{{ article.author }}</a> le {{ article.publication_date }}
-                            {% if article.modification_date %}
+                            Publié par <a
+                                    href="#">{{ post.author }}</a> le {{ post.publication_date }}
+                            {% if post.modification_date %}
                                 <div>
                                     <span class="small">
-                                        Dernière modification le {{ article.modification_date }}
+                                        Dernière modification le {{ post.modification_date }}
                                     </span>
                                 </div>
                             {% endif %}
@@ -27,23 +29,23 @@
             </div>
         </div>
     </header>
-    <!-- Post Content-->
+    {# Post Content #}
     <article class="mb-4">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
-                    <p>{{ article.content }}</p>
+                    <p>{{ post.content }}</p>
                 </div>
             </div>
         </div>
     </article>
-    <!-- Commentaires -->
+    {# Commentaires #}
     <section id="commentaire" class="mb-4">
         <div class="container px-4 px-lg-5">
             <h3>Commentaires ({{ comments | length }})</h3>
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="mb-3">
-                    <!-- COMMENTAIRE -->
+                    {# Boucles commentaires #}
                     {% if comments | length < 0 %}
                         <p>Soyez le premier à me laisser un commentaire !</p>
                     {% endif %}
@@ -53,11 +55,13 @@
                                 <div class="">
                                     <h5 class="card-title">{{ comment.author }}</h5>
                                     <p class="card-subtitle">
-                                        <small class="text-muted">Publié le {{ comment.comment_date }}</small>
+                                        <small class="text-muted">Publié
+                                                                  le {{ comment.comment_date }}</small>
                                     </p>
                                     <p class="small m-0">
-                                        <a href="#">Modifier mon commentaire</a> <br> <a href="#">Supprimer mon
-                                                                                                  commentaire</a>
+                                        <a href="#">Modifier mon commentaire</a>
+                                        <br> <a href="#">Supprimer mon
+                                                         commentaire</a>
                                     </p>
                                 </div>
                             </div>
@@ -74,7 +78,8 @@
             <h3 class="h4">Commenter</h3>
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="mb-3">
-                    <p>Vous devez être connecté pour publier un commentaire !</p>
+                    <p>Vous devez être connecté pour publier un commentaire
+                       !</p>
                     <p><a href="#">Connexion/Inscription</a></p>
                 </div>
             </div>
@@ -83,13 +88,15 @@
                     <form id="contactForm">
                         <p>Vous êtes connecté en tant que [Nom]</p>
                         <div class="form-floating">
-                            <textarea class="form-control" id="message" placeholder="Votre message"
+                            <textarea class="form-control" id="message"
+                                      placeholder="Votre message"
                                       style="height: 12rem" required></textarea>
                             <label for="message">Message</label>
                         </div>
                         <br />
-                        <!-- Submit Button-->
-                        <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Envoyer
+                        {# Submit Button #}
+                        <button class="btn btn-primary text-uppercase"
+                                id="submitButton" type="submit">Envoyer
                         </button>
                     </form>
                 </div>

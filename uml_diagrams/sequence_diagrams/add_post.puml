@@ -12,9 +12,9 @@ a -> www: Accès au back office
     activate www
 www -> db: Récupération des données
     activate db
-www <- db: Retourne les données du back office
+www <-- db: Retourne les données du back office
     deactivate db
-a <- www: Affichage du back office
+a <-- www: Affichage du back office
     deactivate a
     deactivate www
 a -> www: Envoie un nouvel article
@@ -22,9 +22,9 @@ a -> www: Envoie un nouvel article
     activate www
 www -> db: Sauvegarde du nouvel article
     activate db
-www <- db: OK: Article enregistré
+www <-- db: OK: Article enregistré
     deactivate db
-a <- www: Article publié !
+a <-- www: Article publié !
     deactivate www
     deactivate a
 
