@@ -1,4 +1,4 @@
-{% extends 'frontend/template.twig' %}
+{% extends 'template.twig' %}
 {% block title %}
     {{ article.title }}
 {% endblock %}
@@ -10,14 +10,14 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="post-heading">
-                        <h1>{{ article.title }}</h1>
-                        <h2 class="subheading">{{ article.pre_content }}</h2>
+                        <h1>{{ post.title }}</h1>
+                        <h2 class="subheading">{{ post.pre_content }}</h2>
                         <span class="meta">
-                            Publié par <a href="#">{{ article.author }}</a> le {{ article.publication_date }}
-                            {% if article.modification_date %}
+                            Publié par <a href="#">{{ post.author }}</a> le {{ post.publication_date }}
+                            {% if post.modification_date %}
                                 <div>
                                     <span class="small">
-                                        Dernière modification le {{ article.modification_date }}
+                                        Dernière modification le {{ post.modification_date }}
                                     </span>
                                 </div>
                             {% endif %}
@@ -32,7 +32,7 @@
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
-                    <p>{{ article.content }}</p>
+                    <p>{{ post.content }}</p>
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-{% extends 'frontend/template.twig' %}
+{% extends 'template.twig' %}
 {% block title %}
     Blog
 {% endblock %}
@@ -39,17 +39,17 @@
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center">
 
-                {% for article in articles %}
-                    <div class="post-preview"><a href="?action=post&id={{ article.id }}">
-                            <h2 class="post-title">{{ article.title }}</h2>
-                            <h3 class="post-subtitle">{{ article.pre_content }}</h3>
+                {% for post in posts %}
+                    <div class="post-preview"><a href="?action=post&id={{ post.id }}">
+                            <h2 class="post-title">{{ post.title }}</h2>
+                            <h3 class="post-subtitle">{{ post.pre_content }}</h3>
                         </a>
                         <div class="post-meta">
-                            Publié par <a href="#">{{ article.author }}</a> le {{ article.publication_date }}
-                            {% if article.modification_date %}
+                            Publié par <a href="#">{{ post.author }}</a> le {{ post.publication_date }}
+                            {% if post.modification_date %}
                                 <div>
                                     <span class="small">
-                                        Dernière modification le {{ article.modification_date }}
+                                        Dernière modification le {{ post.modification_date }}
                                     </span>
                                 </div>
                             {% endif %}
