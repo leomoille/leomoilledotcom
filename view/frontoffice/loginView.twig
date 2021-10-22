@@ -5,7 +5,8 @@
 
 {% block content %}
     {# Page Header #}
-    <header class="masthead" style="background-image: url('../../public/images/home-bg.jpg')">
+    <header class="masthead"
+            style="background-image: url('../../public/images/home-bg.jpg')">
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
@@ -21,58 +22,106 @@
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
-                    <ul class="nav nav-pills mb-3 nav-fill" id="pills-tab" role="tablist">
+                    <ul class="nav nav-pills mb-3 nav-fill" id="pills-tab"
+                        role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
+                            <button class="nav-link active" id="pills-home-tab"
+                                    data-bs-toggle="pill"
+                                    data-bs-target="#pills-home" type="button"
+                                    role="tab" aria-controls="pills-home"
                                     aria-selected="true">Se connecter
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-profile" type="button" role="tab"
+                            <button class="nav-link" id="pills-profile-tab"
+                                    data-bs-toggle="pill"
+                                    data-bs-target="#pills-profile"
+                                    type="button" role="tab"
                                     aria-controls="pills-profile"
                                     aria-selected="false">S'inscrire
                             </button>
                         </li>
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                        <div class="tab-pane fade show active" id="pills-home"
+                             role="tabpanel"
                              aria-labelledby="pills-home-tab">
                             <div class="col-md-10 col-lg-8 col-xl-7 m-auto pt-5">
-                                <form method="post" action="index.php">
+                                <form method="post"
+                                      action="index.php?action=login">
                                     <div class="mb-3">
-                                        <label for="loginEmail" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="loginEmail"
-                                               aria-describedby="emailHelp" name="mail">
+                                        <label for="loginEmail"
+                                               class="form-label">Email</label>
+                                        <input type="email" class="form-control"
+                                               id="loginEmail"
+                                               aria-describedby="emailHelp"
+                                               name="mail">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="loginPassword" class="form-label">Mot de passe</label>
-                                        <input name="password" type="password" class="form-control" id="loginPassword">
+                                        <label for="loginPassword"
+                                               class="form-label">Mot de
+                                                                  passe</label>
+                                        <input name="password" type="password"
+                                               class="form-control"
+                                               id="loginPassword">
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Connexion</button>
+                                    <button type="submit"
+                                            class="btn btn-primary">Connexion
+                                    </button>
                                 </form>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="pills-profile" role="tabpanel"
+                        <div class="tab-pane fade" id="pills-profile"
+                             role="tabpanel"
                              aria-labelledby="pills-profile-tab">
                             <div class="col-md-10 col-lg-8 col-xl-7 m-auto pt-5">
-                                <form>
+                                <form method="post"
+                                      action="index.php?action=signup">
                                     <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1"
-                                               aria-describedby="emailHelp">
+                                        <label for="signup-name"
+                                               class="form-label">Pseudo</label>
+                                        <input type="text" name="signup[name]"
+                                               class="form-control"
+                                               id="signup-name">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1">
+                                        <label for="signup-email"
+                                               class="form-label">Email</label>
+                                        <input type="email" name="signup[email]"
+                                               class="form-control"
+                                               id="signup-email">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">Confirmation du mot de
-                                                                                              passe</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1">
+                                        <label for="signup-email-check"
+                                               class="form-label">Répétez votre
+                                                                  email</label>
+                                        <input type="email"
+                                               name="signup[emailCheck]"
+                                               class="form-control"
+                                               id="signup-email-check">
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Inscription</button>
+                                    <div class="mb-3">
+                                        <label for="signup-password"
+                                               class="form-label">Mot de
+                                                                  passe</label>
+                                        <input type="password"
+                                               name="signup[password]"
+                                               class="form-control"
+                                               id="signup-password">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="signup-password-check"
+                                               class="form-label">Répétez votre
+                                                                  mot de
+                                                                  passe</label>
+                                        <input type="password"
+                                               name="signup[passwordCheck]"
+                                               class="form-control"
+                                               id="signup-password-check">
+                                    </div>
+                                    <button type="submit"
+                                            class="btn btn-primary">Inscription
+                                    </button>
                                 </form>
                             </div>
                         </div>

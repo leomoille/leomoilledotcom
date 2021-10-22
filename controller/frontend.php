@@ -2,7 +2,9 @@
 
 require_once('model/PostManager.php');
 require_once('model/CommentManager.php');
+require_once('model/AccountManager.php');
 
+use App\Model\AccountManager;
 use App\Model\CommentManager;
 use App\Model\PostManager;
 use Twig\Environment;
@@ -41,7 +43,7 @@ function listPosts(Environment $twig)
 function blog(Environment $twig)
 {
     $postManager = new PostManager();
-    $posts    = $postManager->getPosts();
+    $posts       = $postManager->getPosts();
     
     try {
         echo $twig->render('frontoffice/blogView.twig', ['posts' => $posts]);
@@ -62,7 +64,7 @@ function post(Environment $twig)
     $postManager    = new PostManager();
     $commentManager = new CommentManager();
     
-    $post  = $postManager->getPost($_GET['id']);
+    $post     = $postManager->getPost($_GET['id']);
     $comments = $commentManager->getComments($_GET['id']);
     
     try {
@@ -108,6 +110,23 @@ function connexion(Environment $twig)
         echo $twig->render('frontoffice/loginView.twig');
     } catch (LoaderError | RuntimeError | SyntaxError $e) {
         throw new Exception($e);
+    }
+}
+
+/**
+ * Signup to the blog
+ *
+ * @throws Exception
+ */
+function signupAccount(string $name, string $email, string $emailCheck, string $password, string $passwordCheck)
+{
+    $accountManager = new AccountManager();
+    if ($email !== $emailCheck || $password !== $passwordCheck) {
+        throw new Exception('Vérifiez votre saisie');
+    } else {
+        $accountManager->signup($name, $email, $password);
+        // TODO: AUTO LOGIN AFTER ACCOUNT SUCCESSFULLY CREATED
+        header('Location: index.php');
     }
 }
 
