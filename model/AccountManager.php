@@ -11,7 +11,7 @@ class AccountManager extends Manager
     public function signup($name, $email, $password)
     {
         $encryptPass = password_hash($password, PASSWORD_DEFAULT);
-        
+
         $db  = $this->dbConnect();
         $req = $db->prepare(
             'INSERT INTO users(name, email, is_admin, password)
@@ -23,7 +23,7 @@ class AccountManager extends Manager
             ':password' => $encryptPass,
         ]);
     }
-    
+
     /**
      * @throws Exception
      */
@@ -32,11 +32,11 @@ class AccountManager extends Manager
         $db  = $this->dbConnect();
         $req = $db->prepare('SELECT * FROM users WHERE email = ?');
         $req->execute(array($email));
-        
+
         $user = $req->fetch();
-        
+
         $checkPass = password_verify($password, $user['password']);
-        
+
         if ($checkPass) {
             $_SESSION['name']     = $user['name'];
             $_SESSION['email']    = $user['email'];
@@ -45,7 +45,7 @@ class AccountManager extends Manager
             throw new Exception('Vérifiez votre saisie');
         }
     }
-    
+
     public function logout()
     {
         $_SESSION = [];

@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use ParsedownExtra;
+
 require_once('model/Manager.php');
 
 class PostManager extends Manager
@@ -21,14 +23,15 @@ class PostManager extends Manager
     FROM posts ORDER BY publication_date DESC LIMIT 0, 3
     '
         );
-        
+
         return $req;
     }
-    
+
     public function getPosts()
     {
-        $db  = $this->dbConnect();
-        $req = $db->query(
+        $db = $this->dbConnect();
+
+        return $db->query(
             'SELECT id,
            author,
            title,
@@ -39,10 +42,8 @@ class PostManager extends Manager
     FROM posts ORDER BY publication_date DESC
     '
         );
-        
-        return $req;
     }
-    
+
     public function getPost($postId)
     {
         $db  = $this->dbConnect();
@@ -51,9 +52,23 @@ class PostManager extends Manager
     AS publication_date,
        DATE_FORMAT(modification_date, \'%d/%m/%Y à %Hh%imin\') AS modification_date FROM posts WHERE id = ?'
         );
+
         $req->execute(array($postId));
-        $post = $req->fetch();
-        
+        $post            = $req->fetch();
+        $Parsedown       = new ParsedownExtra();
+        $post['content'] = $Parsedown->text($post['content']);
+
         return $post;
+    }
+
+    public function addPost($title, $pre_content, $content): bool
+    {
+        $db       = $this->dbConnect();
+        $comments =
+            $db->prepare(
+                'INSERT INTO posts(author, title, pre_content, content, publication_date) VALUES(?, ?, ?, ?, NOW())'
+            );
+
+        return $comments->execute(array('Léo', $title, $pre_content, $content));
     }
 }

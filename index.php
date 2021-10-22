@@ -17,16 +17,15 @@ $twig   = new Environment($loader, [
 ]);
 $twig->addExtension(new DebugExtension());
 
-if (isset($_GET['action'])) {
-    // Home page
-    if ($_GET['action'] == 'home') {
+// Router
+if (isset($_GET['page'])) {
+    if ($_GET['page'] == 'home') { // Home page
         try {
             home($twig);
         } catch (Exception $e) {
             echo $e;
         }
-        // Single post
-    } elseif ($_GET['action'] == 'post') {
+    } elseif ($_GET['page'] == 'post') { // Single post page
         if (isset($_GET['id']) && $_GET['id'] > 0) {
             try {
                 post($twig);
@@ -36,68 +35,76 @@ if (isset($_GET['action'])) {
         } else {
             echo 'Erreur : aucun identifiant de billet envoyé';
         }
-        // Blog page
-    } elseif ($_GET['action'] == 'blog') {
+    } elseif ($_GET['page'] == 'blog') { // Blog page
         try {
             blog($twig);
         } catch (Exception $e) {
             echo $e;
         }
-        // Login / Sign Up page
-    } elseif ($_GET['action'] == 'connexion') {
-        try {
-            connexion($twig);
-        } catch (Exception $e) {
-            echo $e;
+    } elseif ($_GET['page'] == 'connexion') { // Login/SignUp page
+        if (!isset($_GET['action'])) {
+            try {
+                connexion($twig);
+            } catch (Exception $e) {
+                echo $e;
+            }
         }
-        // User login
-    } elseif ($_GET['action'] == 'login') {
-        $data = $_POST['login'];
-        try {
-            loginAccount($data['email'], $data['password']);
-        } catch (Exception $e) {
-            echo $e;
+        if ($_GET['action'] == 'login') { // Login action
+            $data = $_POST['login'];
+            try {
+                loginAccount($data['email'], $data['password']);
+            } catch (Exception $e) {
+                echo $e;
+            }
+        } elseif ($_GET['action'] == 'signup') { // Signup action
+            $data = $_POST['signup'];
+            try {
+                signupAccount(
+                    $data['name'],
+                    $data['email'],
+                    $data['emailCheck'],
+                    $data['password'],
+                    $data['passwordCheck']
+                );
+            } catch (Exception $e) {
+                echo $e;
+            }
         }
-        // User logout
-    } elseif ($_GET['action'] == 'logout') {
+    } elseif ($_GET['page'] == 'logout') { // Logout action
         logoutAccount();
-        // User sign up
-    } elseif ($_GET['action'] == 'signup') {
-        $data = $_POST['signup'];
-        try {
-            signupAccount(
-                $data['name'],
-                $data['email'],
-                $data['emailCheck'],
-                $data['password'],
-                $data['passwordCheck']
-            );
-        } catch (Exception $e) {
-            echo $e;
-        }
-        // User account management page
-    } elseif ($_GET['action'] == 'account') {
+    } elseif ($_GET['page'] == 'accountManagement') { // Account page
         try {
             manageAccount($twig);
         } catch (Exception $e) {
             echo $e;
         }
-        // Administration page
-    } elseif ($_GET['action'] == 'manage') {
-        try {
-            manageSite($twig);
-        } catch (Exception $e) {
-            echo $e;
+    } elseif ($_GET['page'] == 'websiteManagement') { // Administration dashboard
+        if (!isset($_GET['action'])) {
+            try {
+                manageSite($twig);
+            } catch (Exception $e) {
+                echo $e;
+            }
         }
-        // No 404 for wrong action, just return Home page
-    } else {
+        if (isset($_GET['action']) && $_GET['action'] === 'addPost') {
+            $data = $_POST['post'];
+//            echo '<pre>';
+//            print_r($_POST);
+//            echo '</pre>';
+            try {
+                addPost($data['title'], $data['pre_content'], $data['content']);
+            } catch (Exception $e) {
+                echo $e;
+            }
+        }
+    } else { // 404 to Home
         try {
             home($twig);
         } catch (Exception $e) {
             echo $e;
         }
     }
-} else {
+} else { // 404 to Home
     try {
         home($twig);
     } catch (Exception $e) {
