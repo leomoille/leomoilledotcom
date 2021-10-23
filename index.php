@@ -49,14 +49,14 @@ if (isset($_GET['page'])) {
                 echo $e;
             }
         }
-        if ($_GET['action'] == 'login') { // Login action
+        if (isset($_GET['action']) && $_GET['action'] == 'login') { // Login action
             $data = $_POST['login'];
             try {
                 loginAccount($data['email'], $data['password']);
             } catch (Exception $e) {
                 echo $e;
             }
-        } elseif ($_GET['action'] == 'signup') { // Signup action
+        } elseif (isset($_GET['action']) && $_GET['action'] == 'signup') { // Signup action
             $data = $_POST['signup'];
             try {
                 signupAccount(
@@ -88,13 +88,26 @@ if (isset($_GET['page'])) {
         }
         if (isset($_GET['action']) && $_GET['action'] === 'addPost') {
             $data = $_POST['post'];
-//            echo '<pre>';
-//            print_r($_POST);
-//            echo '</pre>';
             try {
                 addPost($data['title'], $data['pre_content'], $data['content']);
             } catch (Exception $e) {
                 echo $e;
+            }
+        } elseif (
+            (isset($_GET['action']) && $_GET['action'] === 'editPost')
+            && (isset($_GET['id']) && $_GET['id'] > 0)
+        ) {
+            try {
+                editPost($twig);
+            } catch (Exception $e) {
+            }
+        } elseif (
+            (isset($_GET['action']) && $_GET['action'] === 'updatePost')
+            && (isset($_GET['id']) && $_GET['id'] > 0)
+        ) {
+            try {
+                updatePost();
+            } catch (Exception $e) {
             }
         }
     } else { // 404 to Home

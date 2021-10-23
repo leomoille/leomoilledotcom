@@ -183,9 +183,42 @@ function manageAccount(Environment $twig)
  */
 function manageSite(Environment $twig)
 {
+    $postManager = new PostManager();
+    $posts       = $postManager->getPosts();
     try {
-        echo $twig->render('backoffice/manageSiteView.twig', ['session' => $_SESSION]);
+        echo $twig->render('backoffice/manageSiteView.twig', ['session' => $_SESSION, 'posts' => $posts]);
     } catch (LoaderError | RuntimeError | SyntaxError $e) {
         throw new Exception($e);
     }
+}
+
+/**
+ * @throws Exception
+ */
+function editPost(Environment $twig)
+{
+    $postManager = new PostManager();
+    $post        = $postManager->getPostMD($_GET['id']);
+    try {
+        echo $twig->render(
+            'backoffice/editPostView.twig',
+            ['post' => $post, 'session' => $_SESSION]
+        );
+    } catch (LoaderError | RuntimeError | SyntaxError $e) {
+        throw new Exception($e);
+    }
+}
+
+function updatePost()
+{
+    $post = $_POST['post'];
+
+    $postManager = new PostManager();
+    $postManager->updatePost(
+        $post['id'],
+        $post['title'],
+        $post['pre_content'],
+        $post['content']
+    );
+    header("Location: index.php?page=post&id=" . $post['id']);
 }
