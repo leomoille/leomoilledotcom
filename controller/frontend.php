@@ -24,7 +24,6 @@ function home(Environment $twig)
 {
     $postManager = new PostManager();
     $posts       = $postManager->getLastsPosts();
-    
     try {
         echo $twig->render('frontoffice/indexView.twig', ['posts' => $posts, 'session' => $_SESSION]);
     } catch (LoaderError | RuntimeError | SyntaxError $e) {
@@ -44,7 +43,6 @@ function blog(Environment $twig)
 {
     $postManager = new PostManager();
     $posts       = $postManager->getPosts();
-    
     try {
         echo $twig->render('frontoffice/blogView.twig', ['posts' => $posts, 'session' => $_SESSION]);
     } catch (LoaderError | RuntimeError | SyntaxError $e) {
@@ -63,10 +61,8 @@ function post(Environment $twig)
 {
     $postManager    = new PostManager();
     $commentManager = new CommentManager();
-    
-    $post     = $postManager->getPost($_GET['id']);
-    $comments = $commentManager->getComments($_GET['id']);
-    
+    $post           = $postManager->getPost($_GET['id']);
+    $comments       = $commentManager->getComments($_GET['id']);
     try {
         echo $twig->render(
             'frontoffice/postView.twig',
@@ -74,6 +70,20 @@ function post(Environment $twig)
         );
     } catch (LoaderError | RuntimeError | SyntaxError $e) {
         throw new Exception($e);
+    }
+}
+
+/**
+ * @throws Exception
+ */
+function addPost($title, $pre_content, $content)
+{
+    $postManager   = new PostManager();
+    $affectedLines = $postManager->addPost($title, $pre_content, $content);
+    if ($affectedLines === false) {
+        throw new Exception('Impossible d\'ajouter le commentaire !');
+    } else {
+        header('Location: index.php');
     }
 }
 
@@ -90,13 +100,11 @@ function post(Environment $twig)
 function addComment(int $postId, string $author, string $comment)
 {
     $commentManager = new CommentManager();
-    
-    $affectedLines = $commentManager->postComment($postId, $author, $comment);
-    
+    $affectedLines  = $commentManager->postComment($postId, $author, $comment);
     if ($affectedLines === false) {
         throw new Exception('Impossible d\'ajouter le commentaire !');
     } else {
-        header('Location: index.php?action=post&id=' . $postId);
+        header('Location: index.php?page=post&id=' . $postId);
     }
 }
 
@@ -175,9 +183,49 @@ function manageAccount(Environment $twig)
  */
 function manageSite(Environment $twig)
 {
+    $postManager = new PostManager();
+    $posts       = $postManager->getPosts();
     try {
-        echo $twig->render('backoffice/manageSiteView.twig', ['session' => $_SESSION]);
+        echo $twig->render('backoffice/manageSiteView.twig', ['session' => $_SESSION, 'posts' => $posts]);
     } catch (LoaderError | RuntimeError | SyntaxError $e) {
         throw new Exception($e);
     }
+}
+
+/**
+ * @throws Exception
+ */
+function editPost(Environment $twig)
+{
+    $postManager = new PostManager();
+    $post        = $postManager->getPostMD($_GET['id']);
+    try {
+        echo $twig->render(
+            'backoffice/editPostView.twig',
+            ['post' => $post, 'session' => $_SESSION]
+        );
+    } catch (LoaderError | RuntimeError | SyntaxError $e) {
+        throw new Exception($e);
+    }
+}
+
+function updatePost()
+{
+    $post = $_POST['post'];
+
+    $postManager = new PostManager();
+    $postManager->updatePost(
+        $post['id'],
+        $post['title'],
+        $post['pre_content'],
+        $post['content']
+    );
+    header("Location: index.php?page=post&id=" . $post['id']);
+}
+
+function deletePost()
+{
+    $postManager = new PostManager();
+    $postManager->deletePost($_GET['id']);
+    header('Location: index.php?page=websiteManagement');
 }
