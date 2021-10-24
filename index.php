@@ -109,6 +109,15 @@ if (isset($_GET['page'])) {
                 updatePost();
             } catch (Exception $e) {
             }
+        } elseif (
+            (isset($_GET['action']) && $_GET['action'] === 'deletePost')
+            && (isset($_GET['id']) && $_GET['id'] > 0)
+        ) {
+            try {
+                echo 'OK';
+                deletePost();
+            } catch (Exception $e) {
+            }
         }
     } else { // 404 to Home
         try {

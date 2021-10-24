@@ -99,4 +99,15 @@ WHERE id = ?'
 
         return $comments->execute(array($title, $pre_content, $content, $postId));
     }
+
+    public function deletePost($postId): bool
+    {
+        $db       = $this->dbConnect();
+        $comments =
+            $db->prepare(
+                'DELETE FROM posts WHERE id = ?'
+            );
+
+        return $comments->execute(array($postId));
+    }
 }

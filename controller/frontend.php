@@ -222,3 +222,10 @@ function updatePost()
     );
     header("Location: index.php?page=post&id=" . $post['id']);
 }
+
+function deletePost()
+{
+    $postManager = new PostManager();
+    $postManager->deletePost($_GET['id']);
+    header('Location: index.php?page=websiteManagement');
+}

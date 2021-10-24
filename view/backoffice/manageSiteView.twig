@@ -112,8 +112,21 @@
                                             <th scope="row">{{ post.title }}</th>
                                             <td>{{ post.pre_content }}</td>
                                             <td>{{ post.publication_date }}</td>
-                                            <td><a href="?page=websiteManagement&action=editPost&id={{ post.id }}">Modifier</a>
+                                            <td>
+                                                <a class="link-primary"
+                                                   href="?page=websiteManagement&action=editPost&id={{ post.id }}">Modifier</a>
+                                                <a class="text-danger" style="cursor: pointer"
+                                                   onclick="confirmDelete{{ post.id }}()">Supprimer</a>
                                             </td>
+                                            <script>
+                                              function confirmDelete{{ post.id }} () {
+                                                let option = confirm('Êtes-vous sur de vouloir supprimer le post "{{ post.title }}"')
+                                                if (option) {
+                                                  alert('La publication "{{ post.title }}" a bien été supprimé')
+                                                  document.location.href = '?page=websiteManagement&action=deletePost&id={{ post.id }}'
+                                                }
+                                              }
+                                            </script>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
