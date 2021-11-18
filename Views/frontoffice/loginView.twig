@@ -1,0 +1,48 @@
+{% extends 'template.twig' %}
+{% block title %}
+    Connexion
+{% endblock %}
+
+{% block content %}
+    {# Page Header #}
+    <header class="masthead" style="background-image: url('/images/home-bg.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Léo Moille</h1>
+                        <span class="subheading">Développeur PHP/Symfony</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="mb-4">
+        <div class="container px-4 px-lg-5">
+            <h2 class="text-center">Connexion</h2>
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+                    <form method="post" action="">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <input name="password" type="password" class="form-control" id="password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Connexion</button>
+                        <p>Vous n'avez pas de compte ?
+                            <a href="/users/signin">En créer un !</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
