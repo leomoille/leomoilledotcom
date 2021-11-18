@@ -1,0 +1,56 @@
+{% extends 'template.twig' %}
+{% block title %}
+    Inscription
+{% endblock %}
+
+{% block content %}
+    {# Page Header #}
+    <header class="masthead" style="background-image: url('/images/home-bg.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Léo Moille</h1>
+                        <span class="subheading">Développeur PHP/Symfony</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="mb-4">
+        <div class="container px-4 px-lg-5">
+            <h2 class="text-center">Inscription</h2>
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <form method="post" action="#">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Pseudo</label>
+                            <input type="text" name="name" class="form-control" id="name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" id="email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="signup-email-check" class="form-label">Répétez votre email</label>
+                            <input type="email" name="emailCheck" class="form-control" id="signup-email-check">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <input type="password" name="password" class="form-control" id="password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password-check" class="form-label">Répétez votre mot de passe</label>
+                            <input type="password" name="passwordCheck" class="form-control" id="password-check">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Inscription</button>
+                        <p>Vous avez déjà un compte ?
+                            <a href="/users/login">Se connecter !</a>
+                        </p>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
