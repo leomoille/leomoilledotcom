@@ -53,25 +53,24 @@
                             <div class="col-md-12 col-lg-10 col-xl-9 m-auto pt-5">
                                 <h3>Ajouter un article</h3>
                                 <form action="/blog/addPost" method="post">
-                                    <label hidden>
-                                        <input type="text" hidden name="post[id]" value="{{ post.id }}">
-                                        <input type="text" hidden name="post[author]" value="{{ session.user.name }}">
-                                    </label>
                                     <div class="form-group">
                                         <label for="post-title">
                                             Titre de l'article</label>
-                                        <input type="text" class="form-control" id="post-title" name="post[title]">
+                                        <input autocomplete="off" type="text" class="form-control" id="post-title"
+                                               name="post[title]">
                                     </div>
                                     <div class="form-group">
                                         <label for="pre-content">
                                             Extrait</label>
-                                        <textarea class="form-control" id="pre-content" name="post[preContent]"
+                                        <textarea autocomplete="off" class="form-control" id="pre-content"
+                                                  name="post[preContent]"
                                                   rows="3"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="content">
                                             Contenu de l'article</label>
-                                        <textarea class="form-control mb-3" id="content" name="post[content]"
+                                        <textarea autocomplete="off" class="form-control mb-3" id="content"
+                                                  name="post[content]"
                                                   rows="15"></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Publier
@@ -96,8 +95,8 @@
                                     {% for post in posts %}
                                         <tr>
                                             <th scope="row">{{ post.title }}</th>
-                                            <td>{{ post.pre_content }}</td>
-                                            <td>{{ post.publication_date }}</td>
+                                            <td>{{ post.preContent }}</td>
+                                            <td>{{ post.publicationDate }}</td>
                                             <td>
                                                 {# TODO: Modifier ou supprimer une publication #}
                                                 <a href="/blog/editPost/{{ post.id }}" class="text-success"
@@ -133,12 +132,17 @@
                                                     <tbody>
                                                     {% for comment in comments %}
                                                         <tr>
-                                                            <th scope="row">{{ comment.author }}</th>
+                                                            <th scope="row">{{ comment.authorName }}</th>
                                                             <td>{{ comment.comment }}</td>
                                                             <td>
                                                                 {# TODO: Approuver ou supprimer un commentaire #}
-                                                                <a class="text-success" style="cursor: pointer">Approuver</a>
-                                                                <a class="text-danger"
+                                                                {% if not comment.isApproved %}
+                                                                    <a href="/users/approveComment/{{ comment.id }}"
+                                                                       class="text-success"
+                                                                       style="cursor: pointer">Approuver</a>
+                                                                {% endif %}
+                                                                <a href="/users/deleteComment/{{ comment.id }}"
+                                                                   class="text-danger"
                                                                    style="cursor: pointer">Supprimer</a>
                                                             </td>
                                                         </tr>
@@ -153,7 +157,7 @@
                         </div>
                         <div class="tab-pane fade" id="pills-account" role="tabpanel"
                              aria-labelledby="pills-account-tab">
-                            <div class="col-md-10 col-lg-8 col-xl-7 m-auto pt-5">
+                            <div class="col-md-12 col-lg-12 col-xl12 m-auto pt-5">
                                 <form>
                                     <div class="mb-3">
                                         <div class="form-check">

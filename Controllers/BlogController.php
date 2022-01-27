@@ -19,7 +19,10 @@ class BlogController extends Controller
     public function index()
     {
         $postModel = new PostsModel();
-        $posts = $postModel->findAll();
+        $posts     = $postModel->getAllPostWithAuthorName();
+
+        // TODO: Récupérer chaque auteur pour chaque post
+
         $this->twigRender('frontoffice/blogView.twig', ['posts' => $posts]);
     }
 
@@ -31,16 +34,20 @@ class BlogController extends Controller
     public function post($id)
     {
         $postModel = new PostsModel();
-        $post = $postModel->find($id);
+        $post      = $postModel->getPostWithAuthorName($id);
+        $postModel->hydrate($post);
+
+
         $Parsedown = new ParsedownExtra();
-        $post->content = $Parsedown->text($post->content);
+        $postModel->setContent($Parsedown->text($postModel->getContent()));
 
         $commentsModel = new CommentsModel();
-        $comments = $commentsModel->findBy(['post_id' => $id, 'is_approved' => 1]);
+        $comments      = $commentsModel->getCommentWithAuthorName($id);
 
-        // TODO: Faire une jointure pour récuperer le nom des utilisateurs ayant posté un commentaire
-
-        $this->twigRender('frontoffice/postView.twig', array('post' => $post, 'comments' => $comments));
+        $this->twigRender(
+            'frontoffice/postView.twig',
+            array('post' => $postModel, 'comments' => $comments)
+        );
     }
 
     /**
@@ -52,20 +59,23 @@ class BlogController extends Controller
     {
         // FIXME: Utilisable uniquement si administrateur
         $postModel = new PostsModel();
-        $post = $postModel->find($id);
+        $post      = $postModel->find($id);
 
-        $this->twigRender('backoffice/editPostView.twig', array('post' => $post));
+        $this->twigRender(
+            'backoffice/editPostView.twig',
+            array('post' => $post)
+        );
     }
 
     public function updatePost()
     {
         // Récuperer les informations du post
         if (isset($_POST['post'])) {
-            $data = $_POST['post'];
+            $data                     = $_POST['post'];
             $data['modificationDate'] = date('Y-m-d H:i:s');
 
             $postModel = new PostsModel();
-            $post = $postModel->hydrate($data);
+            $post      = $postModel->hydrate($data);
 
             $post->update();
 
@@ -75,17 +85,22 @@ class BlogController extends Controller
 
     public function addPost()
     {
-        // Récuperer les informations du post
-        if (isset($_POST['post'])) {
-            $data = $_POST['post'];
-            $data['publicationDate'] = date('Y-m-d H:i:s');
+        if ($this->checkPathPrivilege('admin')) {
+            // Récuperer les informations du post
+            if (isset($_POST['post'])) {
+                $data                    = $_POST['post'];
+                $data['publicationDate'] = date('Y-m-d H:i:s');
+                $data['authorId']        = $_SESSION['user']['id'];
 
-            $postModel = new PostsModel();
-            $post = $postModel->hydrate($data);
+                $postModel = new PostsModel();
+                $post      = $postModel->hydrate($data);
 
-            $post->create();
+                $post->create();
 
-            header('Location: /blog');
+                header('Location: /blog');
+            }
+        } else {
+            echo 'Erreur';
         }
     }
 
@@ -96,5 +111,45 @@ class BlogController extends Controller
 
 
         header('Location: /users/adminDashboard');
+    }
+
+    public function addComment($post_id)
+    {
+        if ($this->checkPathPrivilege('admin')) {
+            if (isset($_POST['comment'])) {
+                $data = array(
+                    'authorId'    => $_SESSION['user']['id'],
+                    'postId'      => (int)$post_id,
+                    'isApproved'  => 1,
+                    'comment'     => $_POST['comment'],
+                    'commentDate' => date('Y-m-d H:i:s'),
+                );
+
+
+                $commentModel = new CommentsModel();
+                $comment      = $commentModel->hydrate($data);
+
+                $comment->create();
+            }
+        } elseif ($this->checkPathPrivilege('user')) {
+            if (isset($_POST['comment'])) {
+                $data = array(
+                    'authorId'    => $_SESSION['user']['id'],
+                    'postId'      => (int)$post_id,
+                    'isApproved'  => 0,
+                    'comment'     => $_POST['comment'],
+                    'commentDate' => date('Y-m-d H:i:s'),
+                );
+
+
+                $commentModel = new CommentsModel();
+                $comment      = $commentModel->hydrate($data);
+
+                $comment->create();
+            }
+        } else {
+            echo 'Erreur';
+        }
+        header('Location: /blog/post/' . $post_id);
     }
 }

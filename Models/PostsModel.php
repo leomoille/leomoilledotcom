@@ -5,16 +5,47 @@ namespace App\Models;
 class PostsModel extends Model
 {
     protected int $id;
-    protected string $author;
+    public int $authorId;
+    protected string $authorName;
     protected string $title;
-    protected string $pre_content;
+    protected string $preContent;
     protected string $content;
-    protected string $publication_date;
-    protected string $modification_date;
+    protected string $publicationDate;
+    protected ?string $modificationDate;
 
     public function __construct()
     {
         $this->table = 'posts';
+    }
+
+    public function getAllPostWithAuthorName()
+    {
+        return $this->customQuery(
+            'SELECT posts.*, users.name AS authorName
+                    FROM posts
+                    LEFT JOIN users ON posts.authorId = users.id'
+        )->fetchAll();
+    }
+
+    public function getLimitPostWithAuthorName(int $limit)
+    {
+        return $this->customQuery(
+            "SELECT posts.*, users.name AS authorName
+                    FROM posts
+                    LEFT JOIN users ON posts.authorId = users.id
+                    LIMIT $limit"
+        )->fetchAll();
+    }
+
+    public function getPostWithAuthorName($id)
+    {
+        return $this->customQuery(
+            'SELECT posts.*, users.name AS authorName
+                    FROM posts
+                    LEFT JOIN users ON posts.authorId = users.id
+                    WHERE posts.id = ?',
+            [$id]
+        )->fetch();
     }
 
     /**
@@ -38,21 +69,41 @@ class PostsModel extends Model
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getAuthor(): string
+    public function getAuthorId(): int
     {
-        return $this->author;
+        return $this->authorId;
     }
 
     /**
-     * @param $author
+     * @param $authorId
      *
      * @return $this
      */
-    public function setAuthor($author): PostsModel
+    public function setAuthorId($authorId): PostsModel
     {
-        $this->author = $author;
+        $this->authorId = $authorId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthorName(): string
+    {
+        return $this->authorName;
+    }
+
+    /**
+     * @param $authorName
+     *
+     * @return $this
+     */
+    public function setAuthorName($authorName): PostsModel
+    {
+        $this->authorName = $authorName;
 
         return $this;
     }
@@ -82,17 +133,17 @@ class PostsModel extends Model
      */
     public function getPreContent(): string
     {
-        return $this->pre_content;
+        return $this->preContent;
     }
 
     /**
-     * @param $pre_content
+     * @param $preContent
      *
      * @return $this
      */
-    public function setPreContent($pre_content): PostsModel
+    public function setPreContent($preContent): PostsModel
     {
-        $this->pre_content = $pre_content;
+        $this->preContent = $preContent;
 
         return $this;
     }
@@ -122,37 +173,35 @@ class PostsModel extends Model
      */
     public function getPublicationDate(): string
     {
-        return $this->publication_date;
+        return $this->publicationDate;
     }
 
     /**
-     * @param $publication_date
+     * @param $publicationDate
      *
      * @return $this
      */
-    public function setPublicationDate($publication_date): PostsModel
+    public function setPublicationDate($publicationDate): PostsModel
     {
-        $this->publication_date = $publication_date;
+        $this->publicationDate = $publicationDate;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getModificationDate(): string
+
+    public function getModificationDate(): ?string
     {
-        return $this->modification_date;
+        return $this->modificationDate;
     }
 
     /**
-     * @param $modification_date
+     * @param $modificationDate
      *
      * @return $this
      */
-    public function setModificationDate($modification_date): PostsModel
+    public function setModificationDate($modificationDate): PostsModel
     {
-        $this->modification_date = $modification_date;
+        $this->modificationDate = $modificationDate;
 
         return $this;
     }
