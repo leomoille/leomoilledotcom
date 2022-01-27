@@ -25,24 +25,24 @@
                         <label hidden>
                             <input type="text" hidden name="post[id]" value="{{ post.id }}">
                             <input type="text" hidden name="post[author]" value="{{ post.author }}">
-                            <input type="text" hidden name="post[publicationDate]" value="{{ post.publication_date }}">
+                            <input type="text" hidden name="post[publicationDate]" value="{{ post.publicationDate }}">
                         </label>
                         <div class="form-group">
                             <label for="post-title">
                                 Titre de l'article</label>
-                            <input type="text" class="form-control" id="post-title" name="post[title]"
+                            <input autocomplete="off" type="text" class="form-control" id="post-title" name="post[title]"
                                    value="{{ post.title }}">
                         </div>
                         <div class="form-group">
                             <label for="pre-content">
                                 Extrait</label>
-                            <textarea class="form-control" id="pre-content" name="post[preContent]"
-                                      rows="3">{{ post.pre_content }}</textarea>
+                            <textarea autocomplete="off" class="form-control" id="pre-content" name="post[preContent]"
+                                      rows="3">{{ post.preContent }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="content">
                                 Contenu de l'article</label>
-                            <textarea class="form-control mb-3" id="content" name="post[content]"
+                            <textarea autocomplete="off" class="form-control mb-3" id="content" name="post[content]"
                                       rows="15">{{ post.content }}</textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Mettre à jour

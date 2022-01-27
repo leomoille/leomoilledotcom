@@ -11,17 +11,17 @@
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="post-heading">
                         <h1>{{ post.title }}</h1>
-                        <h2 class="subheading">{{ post.pre_content }}</h2>
+                        <h2 class="subheading">{{ post.preContent }}</h2>
                         <span class="meta">
 							Publié par
-							<a href="#">{{ post.author }}</a>
+							<b>{{ post.authorName }}</b>
 							le
-							{{ post.publication_date }}
-                            {% if post.modification_date %}
+							{{ post.publicationDate | date("d M Y à h:i") }}
+                            {% if post.modificationDate %}
                                 <div>
 									<span class="small">
 										Dernière modification le
-										{{ post.modification_date }}
+										{{ post.modificationDate | date("d M Y à h:i") }}
 									</span>
 								</div>
                             {% endif %}
@@ -45,31 +45,24 @@
             </div>
         </div>
     </article>
+    <hr>
     {# Commentaires #}
     <section id="commentaire" class="mb-4">
         <div class="container px-4 px-lg-5">
             <h3>Commentaires ({{ comments | length }})</h3>
             <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div
-                        class="mb-3">
+                <div class="mb-3">
                     {# Boucles commentaires #}
                     {% for comment in comments %}
-                        {% if comment.is_approved == 1 %}
-                            <div class="row g-0 align-items-baseline">
+                        {% if comment.isApproved == 1 %}
+                            <div class="row g-0 align-items-baseline border-bottom">
                                 <div class="col-md-4">
                                     <div class="">
-                                        <h5 class="card-title">{{ comment.author }}</h5>
+                                        <h5 class="card-title">{{ comment.authorName }}</h5>
                                         <p class="card-subtitle">
                                             <small class="text-muted">Publié le
-                                                {{ comment.comment_date }}</small>
+                                                {{ comment.commentDate | date("d M Y à h:i") }}</small>
                                         </p>
-                                        {% if session.user.name == comment.author %}
-                                            <p class="small m-0">
-                                                <a href="#">Modifier mon commentaire</a>
-                                                <br>
-                                                <a href="#">Supprimer mon commentaire</a>
-                                            </p>
-                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="col-md-8">
@@ -83,7 +76,6 @@
                 </div>
             </div>
         </div>
-        <hr style="width: 50%; margin: auto;">
         <div class="container px-4 px-lg-5 mt-5">
             <h3 class="h4">Commenter</h3>
             {% if not session.user.name %}
@@ -91,7 +83,7 @@
                     <div class="mb-3">
                         <p>Vous devez être connecté pour publier un commentaire !</p>
                         <p>
-                            <a href="/?page=connexion">Connexion/Inscription</a>
+                            <a href="/users/login">Connexion</a> / <a href="/users/signin">Inscription</a>
                         </p>
                     </div>
                 </div>
@@ -99,7 +91,7 @@
             {% if session.user.name is defined %}
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="mb-3">
-                        <form method="post" action="?page=post&id={{ post.id }}&action=addComment">
+                        <form method="post" action="/blog/addComment/{{ post.id }}">
                             <p>Vous êtes connecté en tant que
                                 <b>{{ session.user.name }}</b>
                             </p>

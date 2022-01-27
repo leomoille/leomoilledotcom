@@ -2,20 +2,39 @@
 
 namespace App\Models;
 
-use DateTime;
-
 class CommentsModel extends Model
 {
     protected int $id;
-    protected int $post_id;
-    protected int $author_id;
-    protected int $is_approved;
+    protected int $postId;
+    protected int $authorId;
+    protected string $authorName;
+    protected int $isApproved;
     protected string $comment;
-    protected DateTime $comment_date;
+    protected string $commentDate;
 
     public function __construct()
     {
         $this->table = 'comments';
+    }
+
+    public function getCommentWithAuthorName(int $postId)
+    {
+        return $this->customQuery(
+            'SELECT users.name as authorName, comments.*
+                    FROM comments
+                    LEFT JOIN users ON comments.authorId = users.id
+                    WHERE comments.postId = ? AND comments.isApproved = 1',
+            [$postId]
+        )->fetchAll();
+    }
+
+    public function getAllCommentWithAuthorName()
+    {
+        return $this->customQuery(
+            'SELECT users.name as authorName, comments.*
+                    FROM comments
+                    LEFT JOIN users ON comments.authorId = users.id'
+        )->fetchAll();
     }
 
     /**
@@ -43,17 +62,17 @@ class CommentsModel extends Model
      */
     public function getPostId(): int
     {
-        return $this->post_id;
+        return $this->postId;
     }
 
     /**
-     * @param int $post_id
+     * @param int $postId
      *
      * @return $this
      */
-    public function setPostId(int $post_id): CommentsModel
+    public function setPostId(int $postId): CommentsModel
     {
-        $this->post_id = $post_id;
+        $this->postId = $postId;
 
         return $this;
     }
@@ -63,17 +82,37 @@ class CommentsModel extends Model
      */
     public function getAuthorId(): int
     {
-        return $this->author_id;
+        return $this->authorId;
     }
 
     /**
-     * @param int $author_id
+     * @param int $authorId
      *
      * @return $this
      */
-    public function setAuthorId(int $author_id): CommentsModel
+    public function setAuthorId(int $authorId): CommentsModel
     {
-        $this->author_id = $author_id;
+        $this->authorId = $authorId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthorName(): string
+    {
+        return $this->authorName;
+    }
+
+    /**
+     * @param string $authorName
+     *
+     * @return $this
+     */
+    public function setAuhorName(string $authorName): CommentsModel
+    {
+        $this->authorName = $authorName;
 
         return $this;
     }
@@ -83,17 +122,17 @@ class CommentsModel extends Model
      */
     public function getIsApproved(): int
     {
-        return $this->is_approved;
+        return $this->isApproved;
     }
 
     /**
-     * @param int $is_approved
+     * @param int $isApproved
      *
      * @return $this
      */
-    public function setIsApproved(int $is_approved): CommentsModel
+    public function setIsApproved(int $isApproved): CommentsModel
     {
-        $this->is_approved = $is_approved;
+        $this->isApproved = $isApproved;
 
         return $this;
     }
@@ -119,21 +158,21 @@ class CommentsModel extends Model
     }
 
     /**
-     * @return DateTime
+     * @return string
      */
-    public function getCommentDate(): DateTime
+    public function getCommentDate(): string
     {
-        return $this->comment_date;
+        return $this->commentDate;
     }
 
     /**
-     * @param DateTime $comment_date
+     * @param string $commentDate
      *
      * @return $this
      */
-    public function setCommentDate(DateTime $comment_date): CommentsModel
+    public function setCommentDate(string $commentDate): CommentsModel
     {
-        $this->comment_date = $comment_date;
+        $this->commentDate = $commentDate;
 
         return $this;
     }

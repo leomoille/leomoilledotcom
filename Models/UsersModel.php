@@ -7,17 +7,12 @@ class UsersModel extends Model
     protected int $id;
     protected string $name;
     protected string $email;
-    protected int $is_admin;
+    protected int $isAdmin;
     protected string $password;
 
     public function __construct()
     {
         $this->table = 'users';
-    }
-
-    public function findOneByEmail(string $email)
-    {
-        $this->customQuery("SELECT * FROM $this->table WHERE email = ?", [$email])->fetch();
     }
 
     /**
@@ -85,17 +80,17 @@ class UsersModel extends Model
      */
     public function getIsAdmin(): int
     {
-        return $this->is_admin;
+        return $this->isAdmin;
     }
 
     /**
-     * @param int $is_admin
+     * @param int $isAdmin
      *
      * @return UsersModel
      */
-    public function setIsAdmin(int $is_admin): UsersModel
+    public function setIsAdmin(int $isAdmin): UsersModel
     {
-        $this->is_admin = $is_admin;
+        $this->isAdmin = $isAdmin;
 
         return $this;
     }

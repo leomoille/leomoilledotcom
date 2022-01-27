@@ -30,18 +30,18 @@
                     <div class="post-preview">
                         <a href="/blog/post/{{ post.id }}">
                             <h2 class="post-title">{{ post.title }}</h2>
-                            <h3 class="post-subtitle">{{ post.pre_content }}</h3>
+                            <h3 class="post-subtitle">{{ post.preContent }}</h3>
                         </a>
                         <div class="post-meta">
                             Publié par
-                            <a href="#">{{ post.author }}</a>
+                            <b>{{ post.authorName }}</b>
                             le
-                            {{ post.publication_date }}
-                            {% if post.modification_date %}
+                            {{ post.publicationDate }}
+                            {% if post.modificationDate %}
                                 <div>
 									<span class="small">
 										Dernière modification le
-										{{ post.modification_date }}
+										{{ post.modificationDate | date("d M Y à h:i") }}
 									</span>
                                 </div>
                             {% endif %}

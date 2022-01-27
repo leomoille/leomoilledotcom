@@ -11,7 +11,13 @@ class Model extends Database
 
     public function find(int $id)
     {
-        return $this->customQuery("SELECT * FROM $this->table WHERE id = $id")->fetch();
+        $req = $this->customQuery(
+            "SELECT * FROM $this->table WHERE id = ?",
+            [$id]
+        );
+        $req->setFetchMode(\PDO::FETCH_CLASS, static::class);
+
+        return $req->fetch();
     }
 
     public function customQuery(string $sql, array $attr = null)
@@ -40,7 +46,10 @@ class Model extends Database
 
         $fields_list = implode(' AND ', $fields);
 
-        return $this->customQuery("SELECT * FROM $this->table WHERE $fields_list", $values)->fetchAll();
+        return $this->customQuery(
+            "SELECT * FROM $this->table WHERE $fields_list",
+            $values
+        )->fetchAll();
     }
 
     public function findOneBy(array $args)
@@ -55,7 +64,10 @@ class Model extends Database
 
         $fields_list = implode(' AND ', $fields);
 
-        return $this->customQuery("SELECT * FROM $this->table WHERE $fields_list", $values)->fetch();
+        return $this->customQuery(
+            "SELECT * FROM $this->table WHERE $fields_list",
+            $values
+        )->fetch();
     }
 
     public function findAll()
@@ -65,38 +77,41 @@ class Model extends Database
         return $query->fetchAll();
     }
 
-    public function findNum(int $num)
+
+    public function findLimit(int $limit)
     {
-        $query = $this->customQuery("SELECT * FROM $this->table LIMIT $num");
+        $query = $this->customQuery("SELECT * FROM $this->table LIMIT $limit");
 
         return $query->fetchAll();
     }
 
     public function create()
     {
-        $fields = [];
-        $values = [];
+        $fields    = [];
+        $values    = [];
         $countArgs = [];
 
         foreach ($this as $field => $value) {
             if ($value !== null && $field !== 'db' && $field !== 'table') {
-                $fields[] = $field;
+                $fields[]    = $field;
                 $countArgs[] = '?';
-                $values[] = $value;
+                $values[]    = $value;
             }
         }
 
-        $fields_list = implode(', ', $fields);
+        $fields_list   = implode(', ', $fields);
         $countArgsList = implode(', ', $countArgs);
 
-        return $this->customQuery("INSERT INTO $this->table ($fields_list) VALUES($countArgsList)", $values);
+        return $this->customQuery(
+            "INSERT INTO $this->table ($fields_list) VALUES($countArgsList)",
+            $values
+        );
     }
 
     public function hydrate($data): Model
     {
         foreach ($data as $key => $value) {
             $setter = 'set' . ucfirst($key);
-
             if (method_exists($this, $setter)) {
                 $this->$setter($value);
             }
@@ -116,14 +131,18 @@ class Model extends Database
                 $values[] = $value;
             }
         }
-        $values[] = $this->id;
+        $values[]    = $this->id;
         $fields_list = implode(', ', $fields);
 
-        return $this->customQuery("UPDATE $this->table SET $fields_list WHERE id = ?", $values);
+        return $this->customQuery(
+            "UPDATE $this->table SET $fields_list WHERE id = ?",
+            $values
+        );
     }
 
     public function delete(int $id)
     {
-        return $this->customQuery("DELETE FROM $this->table WHERE id = ?", [$id]);
+        return $this->customQuery("DELETE FROM $this->table WHERE id = ?", [$id]
+        );
     }
 }
