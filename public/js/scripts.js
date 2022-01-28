@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', function () {
         const currentTop = document.body.getBoundingClientRect().top * -1
         if (currentTop < scrollPos) {
-          // Scrolling Up
+            // Scrolling Up
             if (currentTop > 0 && mainNav.classList.contains('is-fixed')) {
                 mainNav.classList.add('is-visible')
             } else {
@@ -19,11 +19,11 @@ window.addEventListener('DOMContentLoaded', () => {
                 mainNav.classList.remove('is-visible', 'is-fixed')
             }
         } else {
-          // Scrolling Down
+            // Scrolling Down
             mainNav.classList.remove(['is-visible'])
             if (
-            currentTop > headerHeight &&
-            !mainNav.classList.contains('is-fixed')
+                currentTop > headerHeight &&
+                !mainNav.classList.contains('is-fixed')
             ) {
                 mainNav.classList.add('is-fixed')
             }
@@ -32,18 +32,17 @@ window.addEventListener('DOMContentLoaded', () => {
     })
 })
 
-function confirmDelete(id, name, type)
-{
+function confirmDelete(id, name, type) {
     let option = confirm(`Êtes - vous sur de vouloir supprimer "${name}"`)
     if (option) {
         alert(`"${name}" a bien été supprimé`)
         switch (type) {
             case 'post':
                 document.location.href = ` / post / deletePost / ${id}`
-            break
+                break
             case 'user':
                 document.location.href = ` / users / deleteUser / ${id}`
-            break
+                break
             default:
                 document.location.href = ` / users / adminDashboard`
         }
