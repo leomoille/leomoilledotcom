@@ -13,9 +13,11 @@ use Twig\Error\SyntaxError;
 class UsersController extends Controller
 {
     /**
-     * @throws SyntaxError
-     * @throws RuntimeError
+     * @return void
+     *
      * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function login()
     {
@@ -57,9 +59,11 @@ class UsersController extends Controller
     }
 
     /**
-     * @throws SyntaxError
-     * @throws RuntimeError
+     * @return void
+     *
      * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function signIn()
     {
@@ -115,9 +119,11 @@ class UsersController extends Controller
     }
 
     /**
+     * @return void
+     *
+     * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
-     * @throws LoaderError
      */
     public function adminDashboard()
     {
@@ -144,6 +150,13 @@ class UsersController extends Controller
         }
     }
 
+    /**
+     * @return void
+     *
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function userDashboard()
     {
         if ($this->checkPathPrivilege('user')) {
@@ -165,6 +178,11 @@ class UsersController extends Controller
         }
     }
 
+    /**
+     * @param $commentID
+     *
+     * @return void
+     */
     public function approveComment($commentID)
     {
         if ($this->checkPathPrivilege('admin')) {
@@ -183,6 +201,11 @@ class UsersController extends Controller
         }
     }
 
+    /**
+     * @param $commentID
+     *
+     * @return void
+     */
     public function deleteComment($commentID)
     {
         if ($this->checkPathPrivilege('admin')) {
@@ -195,14 +218,19 @@ class UsersController extends Controller
         }
     }
 
-    public function deleteUser($id)
+    /**
+     * @param $userID
+     *
+     * @return void
+     */
+    public function deleteUser($userID)
     {
         if ($this->checkPathPrivilege('admin')) {
             $userModel = new UsersModel();
-            $user = $userModel->findOneBy(['id' => $id]);
+            $user = $userModel->findOneBy(['id' => $userID]);
 
             if (intval($user->isAdmin) !== 1) {
-                $userModel->delete($id);
+                $userModel->delete($userID);
             }
             header('Location: /users/adminDashboard');
         } else {

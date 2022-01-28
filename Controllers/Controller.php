@@ -13,22 +13,37 @@ require(ROOT . '/vendor/autoload.php');
 
 class Controller
 {
-
-    public function checkPathPrivilege(string $role): bool
+    /**
+     * Check privilege for route access.
+     *
+     * @param string $role
+     * @return bool|void
+     */
+    public function checkPathPrivilege(string $role)
     {
-        return match ($role) {
-            'user' => !empty($_SESSION['user'])
-                && $_SESSION['user']['isAdmin'] === '0',
-            'admin' => !empty($_SESSION['user'])
-                && $_SESSION['user']['isAdmin'] === '1',
-            default => false,
-        };
+        switch ($role) {
+            case 'admin':
+                return !empty($_SESSION['user'])
+                    && $_SESSION['user']['isAdmin'] === '1';
+            case 'user':
+                return !empty($_SESSION['user'])
+                    && $_SESSION['user']['isAdmin'] === '0';
+            default:
+                header('Location: /');
+        }
     }
 
     /**
-     * @throws SyntaxError
-     * @throws RuntimeError
+     * Use to render pages.
+     *
+     * @param string $path
+     * @param array $args
+     *
+     * @return void
+     *
      * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function twigRender(string $path, array $args = [])
     {

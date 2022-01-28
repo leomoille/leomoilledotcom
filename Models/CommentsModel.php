@@ -17,17 +17,25 @@ class CommentsModel extends Model
         $this->table = 'comments';
     }
 
-    public function getCommentWithAuthorName(int $postId)
+    /**
+     * @param int $postID
+     *
+     * @return array|false
+     */
+    public function getCommentWithAuthorName(int $postID)
     {
         return $this->customQuery(
             'SELECT users.name as authorName, comments.*
                     FROM comments
                     LEFT JOIN users ON comments.authorId = users.id
                     WHERE comments.postId = ? AND comments.isApproved = 1',
-            [$postId]
+            [$postID]
         )->fetchAll();
     }
 
+    /**
+     * @return array|false
+     */
     public function getAllCommentWithAuthorName()
     {
         return $this->customQuery(

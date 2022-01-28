@@ -16,6 +16,7 @@ class Database extends PDO
     private const DB_NAME = 'leomoilledotcom';
     private static $instance;
 
+
     private function __construct()
     {
         $_dsn = 'mysql:dbname=' . self::DB_NAME . ';host=' . self::DB_HOST;
@@ -33,6 +34,9 @@ class Database extends PDO
         }
     }
 
+    /**
+     * @return static
+     */
     public static function getInstance(): self
     {
         if (self::$instance === null) {

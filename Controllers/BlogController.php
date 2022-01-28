@@ -12,29 +12,33 @@ use Twig\Error\SyntaxError;
 class BlogController extends Controller
 {
     /**
-     * @throws SyntaxError
-     * @throws RuntimeError
+     * @return void
+     *
      * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function index()
     {
         $postModel = new PostsModel();
         $posts = $postModel->getAllPostWithAuthorName();
 
-        // TODO: Récupérer chaque auteur pour chaque post
-
         $this->twigRender('frontoffice/blogView.twig', ['posts' => $posts]);
     }
 
     /**
-     * @throws SyntaxError
-     * @throws RuntimeError
+     * @param $postID
+     *
+     * @return void
+     *
      * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function post($id)
+    public function post($postID)
     {
         $postModel = new PostsModel();
-        $post = $postModel->getPostWithAuthorName($id);
+        $post = $postModel->getPostWithAuthorName($postID);
         $postModel->hydrate($post);
 
 
@@ -42,7 +46,7 @@ class BlogController extends Controller
         $postModel->setContent($Parsedown->text($postModel->getContent()));
 
         $commentsModel = new CommentsModel();
-        $comments = $commentsModel->getCommentWithAuthorName($id);
+        $comments = $commentsModel->getCommentWithAuthorName($postID);
 
         $this->twigRender(
             'frontoffice/postView.twig',
@@ -51,15 +55,19 @@ class BlogController extends Controller
     }
 
     /**
-     * @throws SyntaxError
-     * @throws RuntimeError
+     * @param $postID
+     *
+     * @return void
+     *
      * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function editPost($id)
+    public function editPost($postID)
     {
         if ($this->checkPathPrivilege('admin')) {
             $postModel = new PostsModel();
-            $post = $postModel->find($id);
+            $post = $postModel->find($postID);
 
             $this->twigRender(
                 'backoffice/editPostView.twig',
@@ -70,6 +78,9 @@ class BlogController extends Controller
         }
     }
 
+    /**
+     * @return void
+     */
     public function updatePost()
     {
         if ($this->checkPathPrivilege('admin') && isset($_POST['post'])) {
@@ -87,6 +98,9 @@ class BlogController extends Controller
         }
     }
 
+    /**
+     * @return void
+     */
     public function addPost()
     {
         if ($this->checkPathPrivilege('admin')) {
@@ -108,11 +122,16 @@ class BlogController extends Controller
         }
     }
 
-    public function deletePost($id)
+    /**
+     * @param $postID
+     *
+     * @return void
+     */
+    public function deletePost($postID)
     {
         if ($this->checkPathPrivilege('admin')) {
             $postModel = new PostsModel();
-            $postModel->delete($id);
+            $postModel->delete($postID);
 
 
             header('Location: /users/adminDashboard');
@@ -121,13 +140,18 @@ class BlogController extends Controller
         }
     }
 
-    public function addComment($post_id)
+    /**
+     * @param $postID
+     *
+     * @return void
+     */
+    public function addComment($postID)
     {
         if ($this->checkPathPrivilege('admin')) {
             if (isset($_POST['comment'])) {
                 $data = array(
                     'authorId' => $_SESSION['user']['id'],
-                    'postId' => (int)$post_id,
+                    'postId' => (int)$postID,
                     'isApproved' => 1,
                     'comment' => $_POST['comment'],
                     'commentDate' => date('Y-m-d H:i:s'),
@@ -143,7 +167,7 @@ class BlogController extends Controller
             if (isset($_POST['comment'])) {
                 $data = array(
                     'authorId' => $_SESSION['user']['id'],
-                    'postId' => (int)$post_id,
+                    'postId' => (int)$postID,
                     'isApproved' => 0,
                     'comment' => $_POST['comment'],
                     'commentDate' => date('Y-m-d H:i:s'),
@@ -158,6 +182,6 @@ class BlogController extends Controller
         } else {
             header('Location: /');
         }
-        header('Location: /blog/post/' . $post_id);
+        header('Location: /blog/post/' . $postID);
     }
 }

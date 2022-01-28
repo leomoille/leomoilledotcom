@@ -10,9 +10,11 @@ use Twig\Error\SyntaxError;
 class MainController extends Controller
 {
     /**
-     * @throws SyntaxError
-     * @throws RuntimeError
+     * @return void
+     *
      * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function index()
     {
