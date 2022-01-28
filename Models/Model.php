@@ -87,19 +87,19 @@ class Model extends Database
 
     public function create()
     {
-        $fields    = [];
-        $values    = [];
+        $fields = [];
+        $values = [];
         $countArgs = [];
 
         foreach ($this as $field => $value) {
             if ($value !== null && $field !== 'db' && $field !== 'table') {
-                $fields[]    = $field;
+                $fields[] = $field;
                 $countArgs[] = '?';
-                $values[]    = $value;
+                $values[] = $value;
             }
         }
 
-        $fields_list   = implode(', ', $fields);
+        $fields_list = implode(', ', $fields);
         $countArgsList = implode(', ', $countArgs);
 
         return $this->customQuery(
@@ -131,7 +131,7 @@ class Model extends Database
                 $values[] = $value;
             }
         }
-        $values[]    = $this->id;
+        $values[] = $this->id;
         $fields_list = implode(', ', $fields);
 
         return $this->customQuery(
@@ -142,7 +142,6 @@ class Model extends Database
 
     public function delete(int $id)
     {
-        return $this->customQuery("DELETE FROM $this->table WHERE id = ?", [$id]
-        );
+        return $this->customQuery("DELETE FROM $this->table WHERE id = ?", [$id]);
     }
 }

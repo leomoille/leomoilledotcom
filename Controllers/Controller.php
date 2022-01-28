@@ -35,7 +35,7 @@ class Controller
         $args['session'] = $_SESSION;
 
         $loader = new FilesystemLoader(ROOT . '\\Views');
-        $twig   = new Environment($loader, [
+        $twig = new Environment($loader, [
             //    'cache' => 'tmp',
             'debug' => true,
         ]);
