@@ -4,8 +4,8 @@ namespace App\Models;
 
 class PostsModel extends Model
 {
-    protected int $id;
     public int $authorId;
+    protected int $id;
     protected string $authorName;
     protected string $title;
     protected string $preContent;
@@ -18,6 +18,9 @@ class PostsModel extends Model
         $this->table = 'posts';
     }
 
+    /**
+     * @return array|false
+     */
     public function getAllPostWithAuthorName()
     {
         return $this->customQuery(
@@ -27,6 +30,10 @@ class PostsModel extends Model
         )->fetchAll();
     }
 
+    /**
+     * @param int $limit
+     * @return array|false
+     */
     public function getLimitPostWithAuthorName(int $limit)
     {
         return $this->customQuery(
@@ -37,6 +44,10 @@ class PostsModel extends Model
         )->fetchAll();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function getPostWithAuthorName($id)
     {
         return $this->customQuery(
