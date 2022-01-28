@@ -16,16 +16,13 @@ class Controller
 
     public function checkPathPrivilege(string $role): bool
     {
-        switch ($role) {
-            case 'user':
-                return ! empty($_SESSION['user'])
-                       && $_SESSION['user']['isAdmin'] === '0';
-            case 'admin':
-                return ! empty($_SESSION['user'])
-                       && $_SESSION['user']['isAdmin'] === '1';
-            default:
-                return false;
-        }
+        return match ($role) {
+            'user' => !empty($_SESSION['user'])
+                && $_SESSION['user']['isAdmin'] === '0',
+            'admin' => !empty($_SESSION['user'])
+                && $_SESSION['user']['isAdmin'] === '1',
+            default => false,
+        };
     }
 
     /**

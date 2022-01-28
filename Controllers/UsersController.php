@@ -26,7 +26,7 @@ class UsersController extends Controller
             $email = strip_tags($_POST['email']);
 
             $userModel = new UsersModel();
-            $user      = $userModel->findOneBy(array('email' => $email));
+            $user = $userModel->findOneBy(array('email' => $email));
             $checkPass = false;
 
             if ($user) {
@@ -37,10 +37,10 @@ class UsersController extends Controller
             }
 
             if ($checkPass === true) {
-                $loggedUser       = [
-                    'id'      => $user->id,
-                    'name'    => $user->name,
-                    'email'   => $user->email,
+                $loggedUser = [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
                     'isAdmin' => $user->isAdmin,
                 ];
                 $_SESSION['user'] = $loggedUser;
@@ -63,45 +63,49 @@ class UsersController extends Controller
      */
     public function signIn()
     {
-        if (
-            FormChecker::validate(
-                $_POST,
-                ['name', 'email', 'emailCheck', 'password', 'passwordCheck']
-            )
-            && $_POST['email'] === $_POST['emailCheck']
-            && $_POST['password'] === $_POST['passwordCheck']
-        ) {
-            $name     = strip_tags($_POST['name']); // Clean name to prevent XSS
-            $email    = strip_tags(
-                $_POST['email']
-            ); // Clean email to prevent XSS
-            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        if (!$this->checkPathPrivilege('admin') || !$this->checkPathPrivilege('user')) {
+            if (
+                FormChecker::validate(
+                    $_POST,
+                    ['name', 'email', 'emailCheck', 'password', 'passwordCheck']
+                )
+                && $_POST['email'] === $_POST['emailCheck']
+                && $_POST['password'] === $_POST['passwordCheck']
+            ) {
+                $name = strip_tags($_POST['name']); // Clean name to prevent XSS
+                $email = strip_tags(
+                    $_POST['email']
+                ); // Clean email to prevent XSS
+                $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-            $userModel   = new UsersModel();
-            $emailIsUsed = $userModel->findBy(['email' => $email]);
+                $userModel = new UsersModel();
+                $emailIsUsed = $userModel->findBy(['email' => $email]);
 
-            if (empty($emailIsUsed)) {
-                $user = new UsersModel();
+                if (empty($emailIsUsed)) {
+                    $user = new UsersModel();
 
-                $user->setName($name)
-                     ->setEmail($email)
-                     ->setPassword($password)
-                     ->setIsAdmin(0);
+                    $user->setName($name)
+                        ->setEmail($email)
+                        ->setPassword($password)
+                        ->setIsAdmin(0);
 
-                $loggedUser = [
-                    'name'     => $user->getName(),
-                    'email'    => $user->getEmail(),
-                    'password' => $user->getPassword(),
-                    'isAdmin'  => $user->getIsAdmin(),
-                ];
+                    $loggedUser = [
+                        'name' => $user->getName(),
+                        'email' => $user->getEmail(),
+                        'password' => $user->getPassword(),
+                        'isAdmin' => $user->getIsAdmin(),
+                    ];
 
-                $user->create();
-                $_SESSION['user'] = $loggedUser;
-            } else {
-                echo 'Cet email est déjà utilisé';
+                    $user->create();
+                    $_SESSION['user'] = $loggedUser;
+                } else {
+                    echo 'Cet email est déjà utilisé';
+                }
             }
+            $this->twigRender('frontoffice/signInView.twig');
+        } else {
+            header('Locaction: /');
         }
-        $this->twigRender('frontoffice/signInView.twig');
     }
 
     public function logout()
@@ -119,79 +123,90 @@ class UsersController extends Controller
     {
         if ($this->checkPathPrivilege('admin')) {
             $postsModel = new PostsModel();
-            $posts      = $postsModel->findAll();
+            $posts = $postsModel->findAll();
 
             $commentsModel = new CommentsModel();
-            $comments      = $commentsModel->getAllCommentWithAuthorName();
+            $comments = $commentsModel->getAllCommentWithAuthorName();
 
             $userModel = new UsersModel();
-            $users     = $userModel->findBy(array('isAdmin' => 0));
+            $users = $userModel->findBy(array('isAdmin' => 0));
 
             $this->twigRender(
                 'backoffice/adminDashboardView.twig',
                 array(
-                    'posts'    => $posts,
-                    'users'    => $users,
+                    'posts' => $posts,
+                    'users' => $users,
                     'comments' => $comments,
                 )
             );
         } else {
-            echo 'Erreur lol';
+            header('Location: /');
         }
     }
 
-    // FIXME: Proteger la route pour les utilisateurs non connecté
     public function userDashboard()
     {
-        $postsModel = new PostsModel();
-        $posts      = $postsModel->findAll();
+        if ($this->checkPathPrivilege('user')) {
+            $postsModel = new PostsModel();
+            $posts = $postsModel->findAll();
 
-        $commentsModel = new CommentsModel();
-        $comments      = $commentsModel->findAll();
+            $commentsModel = new CommentsModel();
+            $comments = $commentsModel->findAll();
 
-        $userModel = new UsersModel();
-        $users     = $userModel->findBy(array('isAdmin' => 0));
+            $userModel = new UsersModel();
+            $users = $userModel->findBy(array('isAdmin' => 0));
 
-        $this->twigRender(
-            'backoffice/userDashboardView.twig',
-            array('posts' => $posts, 'users' => $users, 'comments' => $comments)
-        );
+            $this->twigRender(
+                'backoffice/userDashboardView.twig',
+                array('posts' => $posts, 'users' => $users, 'comments' => $comments)
+            );
+        } else {
+            header('Location: /');
+        }
     }
 
-    //FIXME: Proteger la route pour les utilisateurs non admin
     public function approveComment($commentID)
     {
-        $commentModel = new CommentsModel();
-        $comment      = $commentModel->findOneBy(array('id' => $commentID));
-        $commentModel->setId($comment->id)
-                     ->setAuthorId($comment->authorId)
-                     ->setPostId($comment->postId)
-                     ->setIsApproved(1)
-                     ->setComment($comment->comment)
-                     ->setCommentDate($comment->commentDate);
-        $commentModel->update();
-        header('Location: /blog/post/' . $commentModel->getPostId());
+        if ($this->checkPathPrivilege('admin')) {
+            $commentModel = new CommentsModel();
+            $comment = $commentModel->findOneBy(array('id' => $commentID));
+            $commentModel->setId($comment->id)
+                ->setAuthorId($comment->authorId)
+                ->setPostId($comment->postId)
+                ->setIsApproved(1)
+                ->setComment($comment->comment)
+                ->setCommentDate($comment->commentDate);
+            $commentModel->update();
+            header('Location: /blog/post/' . $commentModel->getPostId());
+        } else {
+            header('Location: /');
+        }
     }
 
-    //FIXME: Proteger la route pour les utilisateurs non admin
     public function deleteComment($commentID)
     {
-        $commentModel = new CommentsModel();
-        $commentModel->delete($commentID);
+        if ($this->checkPathPrivilege('admin')) {
+            $commentModel = new CommentsModel();
+            $commentModel->delete($commentID);
 
-        header('Location: /users/adminDashboard');
-    }
-
-    //FIXME: Proteger la route pour les utilisateurs non admin
-    public function deleteUser($id)
-    {
-        $userModel = new UsersModel();
-        $user      = $userModel->findOneBy(['id' => $id]);
-
-        if (intval($user->isAdmin) === 1) {
             header('Location: /users/adminDashboard');
         } else {
-            $userModel->delete($id);
+            header('Location: /');
+        }
+    }
+
+    public function deleteUser($id)
+    {
+        if ($this->checkPathPrivilege('admin')) {
+            $userModel = new UsersModel();
+            $user = $userModel->findOneBy(['id' => $id]);
+
+            if (intval($user->isAdmin) !== 1) {
+                $userModel->delete($id);
+            }
+            header('Location: /users/adminDashboard');
+        } else {
+            header('Location: /');
         }
     }
 }
