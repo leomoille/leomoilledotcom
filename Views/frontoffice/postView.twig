@@ -58,7 +58,7 @@
                             <div class="row g-0 align-items-baseline border-bottom">
                                 <div class="col-md-4">
                                     <div class="">
-                                        <h5 class="card-title">{{ comment.authorName }}</h5>
+                                        <h5 class="card-title">{{ comment.authorName ? comment.authorName : 'Utilisateur supprimé' }}</h5>
                                         <p class="card-subtitle">
                                             <small class="text-muted">Publié le
                                                 {{ comment.commentDate | date("d M Y à h:i") }}</small>
