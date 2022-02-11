@@ -131,7 +131,7 @@ class BlogController extends Controller
     {
         if ($this->checkPathPrivilege('admin')) {
             $postModel = new PostsModel();
-            $postModel->delete($postID);
+            $postModel->deletePostByID($postID);
 
 
             header('Location: /users/adminDashboard');

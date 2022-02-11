@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use PDOStatement;
+
 class PostsModel extends Model
 {
     public int $authorId;
@@ -16,6 +18,20 @@ class PostsModel extends Model
     public function __construct()
     {
         $this->table = 'posts';
+    }
+
+    /**
+     * @param $id
+     * @return false|PDOStatement
+     */
+    public function deletePostByID($id)
+    {
+        return $this->customQuery(
+            "
+                DELETE FROM `posts` WHERE id = $id; 
+                DELETE FROM comments WHERE comments.postId = $id
+                "
+        );
     }
 
     /**
