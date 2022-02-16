@@ -58,4 +58,13 @@ class MainController extends Controller
             )
         );
     }
+
+    /**
+     * @return void
+     */
+    public function logout()
+    {
+        $_SESSION = [];
+        header('Location: /');
+    }
 }

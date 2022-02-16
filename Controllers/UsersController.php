@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Core\FormChecker;
 use App\Models\CommentsModel;
 use App\Models\PostsModel;
 use App\Models\UsersModel;
@@ -12,140 +11,10 @@ use Twig\Error\SyntaxError;
 
 class UsersController extends Controller
 {
-    /**
-     * @return void
-     *
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-    public function login()
+
+    public function __construct()
     {
-        $error = null;
-
-        if (FormChecker::validate($_POST, ['email', 'password'])) {
-            // Clean email to prevent XSS
-            $email = strip_tags($_POST['email']);
-
-            $userModel = new UsersModel();
-            $user = $userModel->findOneBy(array('email' => $email));
-            $checkPass = false;
-
-            if ($user) {
-                $checkPass = password_verify(
-                    $_POST['password'],
-                    $user->password
-                );
-            }
-
-            if ($checkPass === true) {
-                $loggedUser = [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'isAdmin' => $user->isAdmin,
-                ];
-                $_SESSION['user'] = $loggedUser;
-                header("Location: /");
-            } else {
-                $error = 'Vérifiez votre saisie.';
-            }
-        }
-
-        $this->twigRender(
-            'frontoffice/loginView.twig',
-            array('error' => $error)
-        );
-    }
-
-    /**
-     * @return void
-     *
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-    public function signIn()
-    {
-        if (!$this->checkPathPrivilege('admin') || !$this->checkPathPrivilege('user')) {
-            if (
-                FormChecker::validate(
-                    $_POST,
-                    ['name', 'email', 'emailCheck', 'password', 'passwordCheck']
-                )
-                && $_POST['email'] === $_POST['emailCheck']
-                && $_POST['password'] === $_POST['passwordCheck']
-            ) {
-                $name = strip_tags($_POST['name']); // Clean name to prevent XSS
-                $email = strip_tags(
-                    $_POST['email']
-                ); // Clean email to prevent XSS
-                $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-                $userModel = new UsersModel();
-                $emailIsUsed = $userModel->findBy(['email' => $email]);
-
-                if (empty($emailIsUsed)) {
-                    $user = new UsersModel();
-
-                    $user->setName($name)
-                        ->setEmail($email)
-                        ->setPassword($password)
-                        ->setIsAdmin(0);
-
-                    $loggedUser = [
-                        'name' => $user->getName(),
-                        'email' => $user->getEmail(),
-                        'password' => $user->getPassword(),
-                        'isAdmin' => $user->getIsAdmin(),
-                    ];
-
-                    $user->create();
-                    $_SESSION['user'] = $loggedUser;
-                } else {
-                    echo 'Cet email est déjà utilisé';
-                }
-            }
-            $this->twigRender('frontoffice/signInView.twig');
-        } else {
-            header('Locaction: /');
-        }
-    }
-
-    public function logout()
-    {
-        $_SESSION = [];
-        header('Location: /');
-    }
-
-    /**
-     * @return void
-     *
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-    public function adminDashboard()
-    {
-        if ($this->checkPathPrivilege('admin')) {
-            $postsModel = new PostsModel();
-            $posts = $postsModel->findAll();
-
-            $commentsModel = new CommentsModel();
-            $comments = $commentsModel->getAllCommentWithAuthorName();
-
-            $userModel = new UsersModel();
-            $users = $userModel->findBy(array('isAdmin' => 0));
-
-            $this->twigRender(
-                'backoffice/adminDashboardView.twig',
-                array(
-                    'posts' => $posts,
-                    'users' => $users,
-                    'comments' => $comments,
-                )
-            );
-        } else {
+        if (!isset($_SESSION['user']['isAdmin']) && $_SESSION['user']['isAdmin'] === '0') {
             header('Location: /');
         }
     }
@@ -159,82 +28,18 @@ class UsersController extends Controller
      */
     public function userDashboard()
     {
-        if ($this->checkPathPrivilege('user')) {
-            $postsModel = new PostsModel();
-            $posts = $postsModel->findAll();
+        $postsModel = new PostsModel();
+        $posts = $postsModel->findAll();
 
-            $commentsModel = new CommentsModel();
-            $comments = $commentsModel->findAll();
+        $commentsModel = new CommentsModel();
+        $comments = $commentsModel->findAll();
 
-            $userModel = new UsersModel();
-            $users = $userModel->findBy(array('isAdmin' => 0));
+        $userModel = new UsersModel();
+        $users = $userModel->findBy(array('isAdmin' => 0));
 
-            $this->twigRender(
-                'backoffice/userDashboardView.twig',
-                array('posts' => $posts, 'users' => $users, 'comments' => $comments)
-            );
-        } else {
-            header('Location: /');
-        }
-    }
-
-    /**
-     * @param $commentID
-     *
-     * @return void
-     */
-    public function approveComment($commentID)
-    {
-        if ($this->checkPathPrivilege('admin')) {
-            $commentModel = new CommentsModel();
-            $comment = $commentModel->findOneBy(array('id' => $commentID));
-            $commentModel->setId($comment->id)
-                ->setAuthorId($comment->authorId)
-                ->setPostId($comment->postId)
-                ->setIsApproved(1)
-                ->setComment($comment->comment)
-                ->setCommentDate($comment->commentDate);
-            $commentModel->update();
-            header('Location: /blog/post/' . $commentModel->getPostId());
-        } else {
-            header('Location: /');
-        }
-    }
-
-    /**
-     * @param $commentID
-     *
-     * @return void
-     */
-    public function deleteComment($commentID)
-    {
-        if ($this->checkPathPrivilege('admin')) {
-            $commentModel = new CommentsModel();
-            $commentModel->delete($commentID);
-
-            header('Location: /users/adminDashboard');
-        } else {
-            header('Location: /');
-        }
-    }
-
-    /**
-     * @param $userID
-     *
-     * @return void
-     */
-    public function deleteUser($userID)
-    {
-        if ($this->checkPathPrivilege('admin')) {
-            $userModel = new UsersModel();
-            $user = $userModel->findOneBy(['id' => $userID]);
-
-            if (intval($user->isAdmin) !== 1) {
-                $userModel->delete($userID);
-            }
-            header('Location: /users/adminDashboard');
-        } else {
-            header('Location: /');
-        }
+        $this->twigRender(
+            'backoffice/userDashboardView.twig',
+            array('posts' => $posts, 'users' => $users, 'comments' => $comments)
+        );
     }
 }

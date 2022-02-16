@@ -63,17 +63,17 @@
                 {% endif %}
                 {% if session.user.name %}
                     <li class="nav-item">
-                        <a class="nav-link px-lg-3 py-3 py-lg-4" href="/users/logout">
+                        <a class="nav-link px-lg-3 py-3 py-lg-4" href="/main/logout">
                             <i class="bi bi-box-arrow-right"></i>
                             Déconnexion</a>
                     </li>
                 {% endif %}
                 {% if not session.user.name %}
                     <li class="nav-item">
-                        <a class="nav-link px-lg-3 py-3 py-lg-4" href="/users/login">Connexion</a>
+                        <a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/login">Connexion</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-lg-3 py-3 py-lg-4" href="/users/signin">Inscription</a>
+                        <a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/signin">Inscription</a>
                     </li>
                 {% endif %}
             </ul>

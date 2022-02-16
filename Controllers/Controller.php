@@ -13,25 +13,6 @@ require(ROOT . '/vendor/autoload.php');
 
 class Controller
 {
-    /**
-     * Check privilege for route access.
-     *
-     * @param string $role
-     * @return bool|void
-     */
-    public function checkPathPrivilege(string $role)
-    {
-        switch ($role) {
-            case 'admin':
-                return !empty($_SESSION['user'])
-                    && $_SESSION['user']['isAdmin'] === '1';
-            case 'user':
-                return !empty($_SESSION['user'])
-                    && $_SESSION['user']['isAdmin'] === '0';
-            default:
-                header('Location: /');
-        }
-    }
 
     /**
      * Use to render pages.
