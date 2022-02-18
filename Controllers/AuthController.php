@@ -106,7 +106,7 @@ class AuthController extends Controller
                 ];
 
                 $user->create();
-                $_SESSION['user'] = $loggedUser;
+                header('Location: /auth/login');
             } else {
                 echo 'Cet email est déjà utilisé';
             }

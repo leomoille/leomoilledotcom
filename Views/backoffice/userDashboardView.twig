@@ -39,23 +39,32 @@
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                              aria-labelledby="pills-home-tab">
-                            <div class="col-md-10 col-lg-8 col-xl-7 m-auto pt-5">
-                                <p>Vous avez [0] commentaires en attentes.</p>
+                            <div class="col-md-10 col-lg-8 col-xl-7 m-auto pt-5 text-center">
+                                <p>Vous avez {{ commentsApproved | length }} commentaire(s) approuvé(s)
+                                    et {{ commentsPending | length }} commentaire(s) en attente(s)
+                                    d'approbation.</p>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="pills-profile" role="tabpanel"
                              aria-labelledby="pills-profile-tab">
                             <div class="col-md-10 col-lg-8 col-xl-7 m-auto pt-5">
-                                <form>
+                                <form method="post" action="/users/deleteAccount">
                                     <div class="mb-3">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                   id="flexCheckDefault">
+                                            <input type="text" name="userId" value="{{ session.user.id }}" hidden>
+                                            <input class="form-check-input" type="checkbox"
+                                                   id="flexCheckDefault" name="confirm">
                                             <label class="form-check-label" for="flexCheckDefault">
-                                                Je confirme vouloir supprimer mon compte
+                                                Je confirme vouloir supprimer mon compte.
                                             </label>
                                         </div>
-
+                                        <p>
+                                            <em>En supprimant votre compte, vos informations seront supprimés mais vos
+                                                commentaires seront toujours présents. Cependant votre nom ou pseudo
+                                                n'apparaitra
+                                                plus. Si vous souhaitez que même vos commentaires soient supprimés,
+                                                merci de passer par le <a href="/#contactForm">formulaire de contact</a>.</em>
+                                        </p>
                                     </div>
                                     <button type="submit" class="btn btn-outline-danger">
                                         Supprimer mon compte

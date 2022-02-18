@@ -37,7 +37,7 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="pills-comment-tab" data-bs-toggle="pill"
                                     data-bs-target="#pills-comment" type="button" role="tab"
-                                    aria-controls="pills-comment" aria-selected="true">Commentaire à approuver
+                                    aria-controls="pills-comment" aria-selected="true">Commentaires
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -52,7 +52,7 @@
                              aria-labelledby="pills-post-tab">
                             <div class="col-md-12 col-lg-10 col-xl-9 m-auto pt-5">
                                 <h3>Ajouter un article</h3>
-                                <form action="/blog/addPost" method="post">
+                                <form action="/admin/addPost" method="post">
                                     <div class="form-group">
                                         <label for="post-title">
                                             Titre de l'article</label>
@@ -98,9 +98,9 @@
                                             <td>{{ post.preContent }}</td>
                                             <td>{{ post.publicationDate }}</td>
                                             <td>
-                                                <a href="/blog/editPost/{{ post.id }}" class="text-success"
+                                                <a href="/admin/editPost/{{ post.id }}" class="text-success"
                                                    style="cursor: pointer">Modifier</a>
-                                                <a href="/blog/deletePost/{{ post.id }}" class="text-danger"
+                                                <a href="/admin/deletePost/{{ post.id }}" class="text-danger"
                                                    style="cursor: pointer">Supprimer</a>
                                             </td>
                                         </tr>
@@ -115,9 +115,9 @@
                                 <form>
                                     <div class="mb-3">
                                         <div class="form-check">
-                                            <h3>Commentaires à approuver</h3>
+                                            <h3>Commentaires</h3>
                                             {% if users | length <= 0 %}
-                                                <p>Il n'y a aucun commentaire à approuver.</p>
+                                                <p>Il n'y a aucun commentaire.</p>
                                             {% endif %}
                                             {% if users %}
                                                 <table class="table table-striped">
@@ -135,11 +135,11 @@
                                                             <td>{{ comment.comment }}</td>
                                                             <td>
                                                                 {% if not comment.isApproved %}
-                                                                    <a href="/users/approveComment/{{ comment.id }}"
+                                                                    <a href="/admin/approveComment/{{ comment.id }}"
                                                                        class="text-success"
                                                                        style="cursor: pointer">Approuver</a>
                                                                 {% endif %}
-                                                                <a href="/users/deleteComment/{{ comment.id }}"
+                                                                <a href="/admin/deleteComment/{{ comment.id }}"
                                                                    class="text-danger"
                                                                    style="cursor: pointer">Supprimer</a>
                                                             </td>
@@ -178,7 +178,7 @@
                                                             <th scope="row">{{ user.name }}</th>
                                                             <td>{{ user.email }}</td>
                                                             <td>
-                                                                <a href="/users/deleteUser/{{ user.id }}"
+                                                                <a href="/admin/deleteUser/{{ user.id }}"
                                                                    class="text-danger"
                                                                    style="cursor: pointer">Supprimer</a>
                                                             </td>

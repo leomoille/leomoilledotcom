@@ -11,7 +11,6 @@ use Twig\Error\SyntaxError;
 
 class UsersController extends Controller
 {
-
     public function __construct()
     {
         if (!isset($_SESSION['user']['isAdmin']) && $_SESSION['user']['isAdmin'] === '0') {
@@ -32,14 +31,45 @@ class UsersController extends Controller
         $posts = $postsModel->findAll();
 
         $commentsModel = new CommentsModel();
-        $comments = $commentsModel->findAll();
+        $commentsApproved = $commentsModel->findBy(array(
+            'authorId' => $_SESSION['user']['id'],
+            'isApproved' => 1
+        ));
+        $commentsPending = $commentsModel->findBy(array(
+            'authorId' => $_SESSION['user']['id'],
+            'isApproved' => 0
+        ));
 
         $userModel = new UsersModel();
         $users = $userModel->findBy(array('isAdmin' => 0));
 
         $this->twigRender(
             'backoffice/userDashboardView.twig',
-            array('posts' => $posts, 'users' => $users, 'comments' => $comments)
+            array(
+                'posts' => $posts,
+                'users' => $users,
+                'commentsApproved' => $commentsApproved,
+                'commentsPending' => $commentsPending
+            )
         );
+    }
+
+    /**
+     * @return void
+     */
+    public function deleteAccount()
+    {
+        if (isset($_POST['userId']) && isset($_POST['confirm'])) {
+            $userId = $_SESSION['user']['id'];
+
+            $userModel = new UsersModel();
+            $user = $userModel->findOneBy(['id' => $userId]);
+
+            if ($_POST['userId'] === $userId && intval($user->isAdmin) !== 1) {
+                $_SESSION = [];
+                $userModel->delete($userId);
+                header('Location: /');
+            }
+        }
     }
 }
