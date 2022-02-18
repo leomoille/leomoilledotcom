@@ -9,7 +9,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     public function __construct()
     {
@@ -25,7 +25,7 @@ class UsersController extends Controller
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function userDashboard()
+    public function dashboard()
     {
         $postsModel = new PostsModel();
         $posts = $postsModel->findAll();

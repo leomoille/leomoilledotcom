@@ -31,20 +31,3 @@ window.addEventListener('DOMContentLoaded', () => {
         scrollPos = currentTop
     })
 })
-
-function confirmDelete(id, name, type) {
-    let option = confirm(`Êtes - vous sur de vouloir supprimer "${name}"`)
-    if (option) {
-        alert(`"${name}" a bien été supprimé`)
-        switch (type) {
-            case 'post':
-                document.location.href = ` / post / deletePost / ${id}`
-                break
-            case 'user':
-                document.location.href = ` / users / deleteUser / ${id}`
-                break
-            default:
-                document.location.href = ` / users / adminDashboard`
-        }
-    }
-}

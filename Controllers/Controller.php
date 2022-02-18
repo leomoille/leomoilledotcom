@@ -13,7 +13,6 @@ require(ROOT . '/vendor/autoload.php');
 
 class Controller
 {
-
     /**
      * Use to render pages.
      *

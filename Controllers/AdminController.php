@@ -11,7 +11,9 @@ use Twig\Error\SyntaxError;
 
 class AdminController extends Controller
 {
-
+    /**
+     * to check if user as admin privileges
+     */
     public function __construct()
     {
         if (!isset($_SESSION['user']['isAdmin']) && $_SESSION['user']['isAdmin'] === '1') {
@@ -20,13 +22,15 @@ class AdminController extends Controller
     }
 
     /**
+     * Display admindashboard view (/admin/dashboard)
+     *
      * @return void
      *
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function adminDashboard()
+    public function dashboard()
     {
         $postsModel = new PostsModel();
         $posts = $postsModel->findAll();
@@ -76,7 +80,7 @@ class AdminController extends Controller
         $commentModel = new CommentsModel();
         $commentModel->delete($commentID);
 
-        header('Location: /users/adminDashboard');
+        header('Location: /user/dashboard');
     }
 
     /**
@@ -92,7 +96,7 @@ class AdminController extends Controller
         if (intval($user->isAdmin) !== 1) {
             $userModel->delete($userID);
         }
-        header('Location: /users/adminDashboard');
+        header('Location: /user/dashboard');
     }
 
     /**
@@ -161,6 +165,6 @@ class AdminController extends Controller
         $postModel = new PostsModel();
         $postModel->deletePostByID($postID);
 
-        header('Location: /users/adminDashboard');
+        header('Location: /user/dashboard');
     }
 }

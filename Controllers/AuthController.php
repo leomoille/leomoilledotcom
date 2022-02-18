@@ -10,7 +10,6 @@ use Twig\Error\SyntaxError;
 
 class AuthController extends Controller
 {
-
     public function __construct()
     {
         if (isset($_SESSION['user'])) {
@@ -97,13 +96,6 @@ class AuthController extends Controller
                     ->setEmail($email)
                     ->setPassword($password)
                     ->setIsAdmin(0);
-
-                $loggedUser = [
-                    'name' => $user->getName(),
-                    'email' => $user->getEmail(),
-                    'password' => $user->getPassword(),
-                    'isAdmin' => $user->getIsAdmin(),
-                ];
 
                 $user->create();
                 header('Location: /auth/login');

@@ -5,7 +5,7 @@
 
 {% block content %}
     {# Page Header #}
-    <header class="masthead" style="background-image: url('../../public/images/home-bg.jpg')">
+    <header class="masthead" style="background-image: url('/images/home-bg.jpg')">
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
@@ -25,7 +25,7 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
                                     data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-                                    aria-selected="true">Commentaire en attente
+                                    aria-selected="true">Commentaire(s) en attente
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -48,7 +48,7 @@
                         <div class="tab-pane fade" id="pills-profile" role="tabpanel"
                              aria-labelledby="pills-profile-tab">
                             <div class="col-md-10 col-lg-8 col-xl-7 m-auto pt-5">
-                                <form method="post" action="/users/deleteAccount">
+                                <form method="post" action="/user/deleteAccount">
                                     <div class="mb-3">
                                         <div class="form-check">
                                             <input type="text" name="userId" value="{{ session.user.id }}" hidden>

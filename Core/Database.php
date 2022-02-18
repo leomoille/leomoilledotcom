@@ -7,13 +7,12 @@ use PDOException;
 
 class Database extends PDO
 {
-    // Instance unique
+    // Connexion informations
     private const DB_HOST = 'localhost';
-
-    // Informations de connexion
     private const DB_USER = 'root';
     private const DB_PW = '';
     private const DB_NAME = 'leomoilledotcom';
+
     private static $instance;
 
 

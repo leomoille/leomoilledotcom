@@ -59,15 +59,13 @@ _auto.mon-site.fr.conf_
 ```php
     class Database extends PDO
     {
-        // Instance unique
+        // Connexion informations
         private const DB_HOST = '';
-    
-        // Informations de connexion
         private const DB_USER = '';
         private const DB_PW = '';
-        private const DB_NAME = '';
+        private const DB_NAME = 'leomoilledotcom';
     
-    // ...
+        // ...
     }
 ```
 ____
