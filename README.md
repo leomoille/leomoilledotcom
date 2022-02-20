@@ -23,10 +23,11 @@ _Vous devrez configurer vous même l'application si vous souhaitez utiliser le s
 
 ## Dépendances
 
-Ce projet comporte 5 dépences.
+Ce projet comporte 6 dépences.
 
 - **twig/twig** : Utilisé pour rendre les différentes vues.
-- **erusev/parsedown** et **erusev/parsedown-extra** : Utilisé pour convertir des chaines de caractères utilisant la
+- **twig/intl-extra** : Utilisé pour formater les dates en français proprement.
+- **erusev/parsedown** et **erusev/parsedown-extra** : Utilisés pour convertir des chaines de caractères utilisant la
   syntaxe Markdown en HTML et inversement.
 - **ext-pdo** : Utilisé pour tout ce qui à attrait à la comunication avec la base de donnée.
 - **squizlabs/php_codesniffer** : Utilisé pour s'assurer que les règles du PSR-12 sont respectés.
