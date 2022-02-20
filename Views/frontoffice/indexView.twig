@@ -38,12 +38,12 @@
                             Publié par
                             <a href="#">{{ post.authorName }}</a>
                             le
-                            {{ post.publicationDate | date("d M Y à h:i") }}
+                            {{ post.publicationDate|format_datetime('full', 'short', locale='fr') }}
                             {% if post.modification_date %}
                                 <div>
 									<span class="small">
 										Dernière modification le
-										{{ post.modificationDate | date("d M Y à h:i") }}
+										{{ post.modificationDate|format_datetime('short', 'short', locale='fr') }}
 									</span>
                                 </div>
                             {% endif %}

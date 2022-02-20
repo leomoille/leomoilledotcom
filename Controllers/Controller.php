@@ -7,6 +7,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Extension\DebugExtension;
+use Twig\Extra\Intl\IntlExtension;
 use Twig\Loader\FilesystemLoader;
 
 require(ROOT . '/vendor/autoload.php');
@@ -35,6 +36,7 @@ class Controller
             'debug' => true,
         ]);
         $twig->addExtension(new DebugExtension());
+        $twig->addExtension(new IntlExtension());
 
         echo $twig->render($path, $args);
     }

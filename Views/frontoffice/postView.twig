@@ -16,12 +16,12 @@
 							Publié par
 							<b>{{ post.authorName }}</b>
 							le
-							{{ post.publicationDate | date("d M Y à h:i") }}
+							{{ post.publicationDate|format_datetime('full', 'short', locale='fr') }}
                             {% if post.modificationDate %}
                                 <div>
 									<span class="small">
 										Dernière modification le
-										{{ post.modificationDate | date("d M Y à h:i") }}
+										{{ post.modificationDate|format_datetime('short', 'short', locale='fr') }}
 									</span>
 								</div>
                             {% endif %}
@@ -61,7 +61,7 @@
                                         <h5 class="card-title">{{ comment.authorName ? comment.authorName : 'Utilisateur supprimé' }}</h5>
                                         <p class="card-subtitle">
                                             <small class="text-muted">Publié le
-                                                {{ comment.commentDate | date("d M Y à h:i") }}</small>
+                                                {{ comment.commentDate|format_datetime('short', 'short', locale='fr') }}</small>
                                         </p>
                                     </div>
                                 </div>

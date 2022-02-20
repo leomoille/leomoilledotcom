@@ -80,7 +80,7 @@ class AdminController extends Controller
         $commentModel = new CommentsModel();
         $commentModel->delete($commentID);
 
-        header('Location: /user/dashboard');
+        header('Location: /admin/dashboard');
     }
 
     /**
@@ -96,7 +96,7 @@ class AdminController extends Controller
         if (intval($user->isAdmin) !== 1) {
             $userModel->delete($userID);
         }
-        header('Location: /user/dashboard');
+        header('Location: /admin/dashboard');
     }
 
     /**
@@ -165,6 +165,6 @@ class AdminController extends Controller
         $postModel = new PostsModel();
         $postModel->deletePostByID($postID);
 
-        header('Location: /user/dashboard');
+        header('Location: /admin/dashboard');
     }
 }

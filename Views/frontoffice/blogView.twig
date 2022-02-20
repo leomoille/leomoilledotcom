@@ -36,12 +36,12 @@
                             Publié par
                             <b>{{ post.authorName }}</b>
                             le
-                            {{ post.publicationDate }}
+                            {{ post.publicationDate|format_datetime('full', 'short', locale='fr') }}
                             {% if post.modificationDate %}
                                 <div>
 									<span class="small">
 										Dernière modification le
-										{{ post.modificationDate | date("d M Y à h:i") }}
+										{{ post.modificationDate|format_datetime('short', 'short', locale='fr') }}
 									</span>
                                 </div>
                             {% endif %}

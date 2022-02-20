@@ -31,7 +31,7 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="pills-edit-post-tab" data-bs-toggle="pill"
                                     data-bs-target="#pills-edit-post" type="button" role="tab"
-                                    aria-controls="pills-edit-post" aria-selected="true">Modifier un post
+                                    aria-controls="pills-edit-post" aria-selected="true">Gestion des articles
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -81,7 +81,7 @@
                         <div class="tab-pane fade" id="pills-edit-post" role="tabpanel"
                              aria-labelledby="pills-edit-post-tab">
                             <div class="col-md-12 col-lg-12 col-xl12 m-auto pt-5">
-                                <h3>Modifier un article</h3>
+                                <h3>Gestion des articles</h3>
                                 <table class="table table-striped">
                                     <thead>
                                     <tr>
@@ -94,9 +94,9 @@
                                     <tbody>
                                     {% for post in posts %}
                                         <tr>
-                                            <th scope="row">{{ post.title }}</th>
+                                            <th scope="row"><a href="/blog/post/{{ post.id }}">{{ post.title }}</a></th>
                                             <td>{{ post.preContent }}</td>
-                                            <td>{{ post.publicationDate }}</td>
+                                            <td>{{ post.publicationDate|format_datetime('short', 'short', locale='fr') }}</td>
                                             <td>
                                                 <a href="/admin/editPost/{{ post.id }}" class="text-success"
                                                    style="cursor: pointer">Modifier</a>
@@ -116,10 +116,7 @@
                                     <div class="mb-3">
                                         <div class="form-check">
                                             <h3>Commentaires</h3>
-                                            {% if users | length <= 0 %}
-                                                <p>Il n'y a aucun commentaire.</p>
-                                            {% endif %}
-                                            {% if users %}
+                                            {% if comments | length > 0 %}
                                                 <table class="table table-striped">
                                                     <thead>
                                                     <tr>
@@ -132,7 +129,9 @@
                                                     {% for comment in comments %}
                                                         <tr>
                                                             <th scope="row">{{ comment.authorName }}</th>
-                                                            <td>{{ comment.comment }}</td>
+                                                            <td>
+                                                                <a href="/blog/post/{{ comment.postId }}">{{ comment.comment }}</a>
+                                                            </td>
                                                             <td>
                                                                 {% if not comment.isApproved %}
                                                                     <a href="/admin/approveComment/{{ comment.id }}"
@@ -147,6 +146,8 @@
                                                     {% endfor %}
                                                     </tbody>
                                                 </table>
+                                            {% else %}
+                                                <p>Il n'y a aucun commentaire.</p>
                                             {% endif %}
                                         </div>
                                     </div>
