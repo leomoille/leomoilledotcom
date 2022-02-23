@@ -54,9 +54,11 @@ _auto.mon-site.fr.conf_
 
 ## Configuration de la base de données
 
-1. Importez la base de données MySQL se trouvant à la racine du projet (`leomoilledotcom.sql.zip`) via un terminal ou depuis PHPMyAdmin.
+1. Importez la base de données MySQL se trouvant à la racine du projet (`leomoilledotcom.sql.zip`) via un terminal ou
+   depuis PHPMyAdmin.
 2. Connectez le projet à la base données à l'aide des 5 constantes disponibles
    dans `/Core/Database.php` ([Voir le fichier](https://github.com/leomoille/leomoilledotcom/blob/e16671644c92f8bf304a8c06e16be9f32de59132/Core/Database.php#L13))
+
 ```php
     class Database extends PDO
     {
@@ -69,9 +71,20 @@ _auto.mon-site.fr.conf_
         // ...
     }
 ```
+
+# Diagrammes UML
+
+Les diagrammes UML du projet sont disponibles dans `/uml_diagrams`. Ils sont écrit à l'aide la
+syntaxe [PlantUML](https://plantuml.com/fr/). Vous pouvez les voirs facilement avec une extension sur votre IDE
+favoris :
+
+- [VSCode PlantUML](https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml)
+- [JetBrain IDE PlantUML integration](https://plugins.jetbrains.com/plugin/7017-plantuml-integration)
+
 ____
 **that's all folks!**
 ____
+
 # Liens utiles
 
 - [PHP](https://www.php.net/)
