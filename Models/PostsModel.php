@@ -42,7 +42,8 @@ class PostsModel extends Model
         return $this->customQuery(
             'SELECT posts.*, users.name AS authorName
                     FROM posts
-                    LEFT JOIN users ON posts.authorId = users.id'
+                    LEFT JOIN users ON posts.authorId = users.id
+                    ORDER BY posts.publicationDate DESC'
         )->fetchAll();
     }
 
@@ -56,7 +57,9 @@ class PostsModel extends Model
             "SELECT posts.*, users.name AS authorName
                     FROM posts
                     LEFT JOIN users ON posts.authorId = users.id
-                    LIMIT $limit"
+                    ORDER BY posts.publicationDate DESC
+                    LIMIT $limit
+                    "
         )->fetchAll();
     }
 

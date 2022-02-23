@@ -28,7 +28,8 @@ class CommentsModel extends Model
             'SELECT users.name as authorName, comments.*
                     FROM comments
                     LEFT JOIN users ON comments.authorId = users.id
-                    WHERE comments.postId = ? AND comments.isApproved = 1',
+                    WHERE comments.postId = ? AND comments.isApproved = 1
+                    ORDER BY comments.commentDate DESC',
             [$postID]
         )->fetchAll();
     }
@@ -41,7 +42,8 @@ class CommentsModel extends Model
         return $this->customQuery(
             'SELECT users.name as authorName, comments.*
                     FROM comments
-                    LEFT JOIN users ON comments.authorId = users.id'
+                    LEFT JOIN users ON comments.authorId = users.id
+                    ORDER BY comments.commentDate DESC'
         )->fetchAll();
     }
 
